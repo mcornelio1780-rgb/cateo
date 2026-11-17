@@ -1,0 +1,65 @@
+rules_version = '2';
+// Reglas de seguridad de Cateo para Cloud Firestore.
+// Dónde pegarlas: Firebase Console → Firestore Database → pestaña "Reglas" → borra todo → pega esto → "Publicar".
+// Si agregas a alguien al equipo, súmalo también en la lista de abajo (y en config.js → teamEmails).
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function me(uid) { return signedIn() && request.auth.uid == uid; }
+    function isTeam() {
+      return signedIn()
+        && request.auth.token.email_verified == true
+        && request.auth.token.email in ['manyosa@limly.io'];
+    }
+
+    // Cuenta de cada persona: solo ella (y el equipo) la ve
+    match /cuentas/{uid} {
+      allow read: if me(uid) || isTeam();
+      allow create, update, delete: if me(uid);
+    }
+
+    // Pedidos: el cliente crea el suyo; solo el equipo confirma pagos y avanza etapas
+    match /pedidos/{id} {
+      allow read: if isTeam() || (signedIn() && resource.data.uid == request.auth.uid);
+      allow create: if signedIn()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.stage == 0
+        && request.resource.data.pay in ['pendiente', 'verificando'];
+      allow update: if isTeam()
+        || (signedIn()
+            && resource.data.uid == request.auth.uid
+            && request.resource.data.uid == request.auth.uid
+            && request.resource.data.stage == resource.data.stage
+            && request.resource.data.pay in ['pendiente', 'verificando']);
+      allow delete: if isTeam();
+    }
+
+    // Intereses de inversionistas
+    match /intereses/{id} {
+      allow read: if isTeam() || (signedIn() && resource.data.uid == request.auth.uid);
+      allow create: if signedIn() && request.resource.data.uid == request.auth.uid;
+      allow update, delete: if isTeam();
+    }
+
+    // Vitrina: fichas publicadas. Entran como "por verificar" y el equipo las califica
+    match /vitrina/{id} {
+      allow read: if isTeam()
+        || (signedIn() && (resource.data.st in ['ok', 'info'] || resource.data.uid == request.auth.uid));
+      allow create: if signedIn()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.st == 'warn';
+      allow update: if isTeam()
+        || (signedIn()
+            && resource.data.uid == request.auth.uid
+            && request.resource.data.uid == request.auth.uid
+            && request.resource.data.st == resource.data.st);
+      allow delete: if isTeam() || (signedIn() && resource.data.uid == request.auth.uid);
+    }
+
+    // Todo lo demás, cerrado
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

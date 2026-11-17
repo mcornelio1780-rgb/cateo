@@ -1,0 +1,735 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cateo · Plataforma</title>
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta name="theme-color" content="#101B33">
+<meta name="robots" content="noindex">
+<meta name="description" content="Plataforma Cateo: informes bilingües de concesiones mineras y directorio de oportunidades de exploración. Un servicio de Limly LLC.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+ --lapis:#101B33;--cobre:#D4622B;--malaquita:#178F6B;--oro:#F2B544;--caliche:#F6F2EB;
+ --ink:#101B33;--page:#F6F2EB;--surface:#FFFFFF;--muted:#5D6473;--line:#DDD6C8;
+ --brand:#101B33;--brand-ink:#FFFFFF;--brand-soft:#ECE4D6;--accent:#D4622B;--accent-ink:#101B33;
+ --success:#2C7F62;--success-soft:#E1F0EA;--warning:#8C6410;--warning-soft:#F5ECD6;--danger:#B23A2E;--danger-soft:#F5E1DD;--info:#2F5D8A;--info-soft:#E2EAF4;
+ --night:#101B33;--night-2:#1A2A4A;--night-ink:#F3EFE7;--night-muted:#B9C0CE;--contour:rgba(216,178,106,.38);
+ --focus:#D4622B;--r-sm:6px;--r-md:12px;--r-lg:20px;
+ --font-display:"Schibsted Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+ --font-body:"Schibsted Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+ color-scheme:light;
+ box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+ --ink:#EEEAE2;--page:#10151F;--surface:#18202E;--muted:#A4ABB8;--line:#2C3546;--brand:#EEEAE2;--brand-ink:#10151F;--brand-soft:#1F293A;--accent:#E07A4E;--accent-ink:#10151F;
+ --success:#4DB892;--success-soft:#15302A;--warning:#E3C384;--warning-soft:#352C15;--danger:#E2735E;--danger-soft:#3A1F1C;--info:#7FA9D6;--info-soft:#172538;--night:#0C111B;--night-2:#141C2A;--focus:#E07A4E;color-scheme:dark}}
+:root[data-theme="dark"]{
+ --ink:#EEEAE2;--page:#10151F;--surface:#18202E;--muted:#A4ABB8;--line:#2C3546;--brand:#EEEAE2;--brand-ink:#10151F;--brand-soft:#1F293A;--accent:#E07A4E;--accent-ink:#10151F;
+ --success:#4DB892;--success-soft:#15302A;--warning:#E3C384;--warning-soft:#352C15;--danger:#E2735E;--danger-soft:#3A1F1C;--info:#7FA9D6;--info-soft:#172538;--night:#0C111B;--night-2:#141C2A;--focus:#E07A4E;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:var(--page);color:var(--ink);font:16px/1.5 var(--font-body);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--night)}
+h1,h2,h3{font-family:var(--font-display);font-weight:800;margin:0;letter-spacing:-.035em}
+.code,.kpi .n,.price{font-variant-numeric:tabular-nums}
+.code{font-family:"IBM Plex Mono",ui-monospace,monospace}
+.kpi .n,.price,.facts b{font-weight:800;letter-spacing:-.04em}
+.btn{border-radius:999px}
+h1{font-size:clamp(34px,5vw,48px);line-height:1.05}
+h2{font-size:30px;line-height:1.15}
+h3{font-size:22px;line-height:1.25}
+p{margin:0}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:4px}
+.muted{color:var(--muted)}
+.small{font-size:14px}.xs{font-size:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:var(--r-md);border:1px solid transparent;font-weight:600;font-size:15px;cursor:pointer;text-decoration:none;white-space:nowrap}
+.btn-p{background:var(--accent);color:var(--accent-ink)}
+.btn-p:hover{filter:brightness(1.06)}
+.btn-d{background:var(--brand);color:var(--brand-ink)}
+.btn-g{background:transparent;border-color:var(--line);color:var(--ink)}
+.btn-g:hover{background:var(--brand-soft)}
+.btn-sm{min-height:36px;padding:0 12px;font-size:14px}
+.btn-lg{min-height:52px;padding:0 24px;font-size:16px}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.ic{width:20px;height:20px;flex:none;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label,.lbl{font-size:13px;font-weight:600}
+.input,select.input,textarea.input{width:100%;min-height:44px;padding:10px 12px;border:1px solid var(--line);border-radius:var(--r-md);background:var(--surface)}
+textarea.input{min-height:90px;resize:vertical}
+.help{font-size:13px;color:var(--muted)}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:14px}
+.check input{width:18px;height:18px;margin-top:2px;accent-color:var(--accent);flex:none}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:720px){.grid2,.grid3{grid-template-columns:1fr}}
+.stack{display:flex;flex-direction:column;gap:14px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.spacer{flex:1}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px}
+.panel.flat{border-radius:var(--r-md)}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;padding:3px 10px;border-radius:999px;white-space:nowrap}
+.badge::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.b-ok{background:var(--success-soft);color:var(--success)}
+.b-warn{background:var(--warning-soft);color:var(--warning)}
+.b-danger{background:var(--danger-soft);color:var(--danger)}
+.b-info{background:var(--info-soft);color:var(--info)}
+.b-plain{background:var(--brand-soft);color:var(--ink)}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--night);color:var(--night-ink);padding:12px 18px;border-radius:var(--r-md);font-size:14px;z-index:90;max-width:90vw;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+/* auth */
+.auth{display:grid;grid-template-columns:minmax(300px,440px) 1fr;min-height:100%}
+.auth-side{background:var(--night);color:var(--night-ink);padding:36px;position:relative;overflow:hidden;display:flex;flex-direction:column;gap:22px}
+.auth-side .contours{opacity:.9}
+.auth-side>*{position:relative}
+.auth-main{padding:28px clamp(18px,5vw,64px);display:flex;flex-direction:column;gap:22px;max-width:760px;width:100%}
+@media(max-width:860px){.auth{grid-template-columns:1fr}.auth-side{padding:24px}.auth-side .hide-m{display:none}}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;background:var(--surface)}
+.seg button{border:0;background:transparent;padding:8px 12px;cursor:pointer;font-size:14px;min-height:36px}
+.seg button[aria-pressed="true"]{background:var(--brand);color:var(--brand-ink)}
+.roles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:620px){.roles{grid-template-columns:1fr}}
+.role{border:1.5px solid var(--line);background:var(--surface);border-radius:var(--r-md);padding:14px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:6px}
+.role[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.role b{font-size:15px}
+.steps{display:flex;gap:6px;align-items:center;font-size:13px;color:var(--muted);flex-wrap:wrap}
+.steps span{padding:2px 8px;border-radius:999px;background:var(--brand-soft)}
+.steps span.on{background:var(--brand);color:var(--brand-ink)}
+/* shell */
+.shell{display:grid;grid-template-columns:232px 1fr;min-height:100%}
+.side{background:var(--night);color:var(--night-ink);padding:18px 14px;display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100vh;height:100dvh}
+.side a.nav{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:var(--r-md);text-decoration:none;color:var(--night-muted);font-size:15px}
+.side a.nav:hover{color:var(--night-ink);background:rgba(255,255,255,.05)}
+.side a.nav[aria-current="page"]{background:rgba(216,178,106,.14);color:var(--night-ink)}
+.side .who{margin-top:auto;font-size:13px;color:var(--night-muted);border-top:1px solid rgba(255,255,255,.12);padding-top:12px}
+.main{min-width:0}
+.top{display:flex;align-items:center;gap:10px;padding:14px clamp(16px,3vw,32px);border-bottom:1px solid var(--line);background:var(--page);position:sticky;top:0;z-index:20}
+.content{padding:24px clamp(16px,3vw,32px) 96px;max-width:1120px}
+.tabbar{display:none}
+.mlogo{display:none}
+@media(max-width:900px){.mlogo{display:inline-flex}}
+#app{min-height:100%}
+.auth{min-height:100vh;min-height:100dvh}
+.contours{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+@media(max-width:900px){
+ .shell{grid-template-columns:1fr}.side{display:none}
+ .tabbar{display:flex;position:fixed;left:0;right:0;bottom:0;background:var(--night);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));z-index:40;justify-content:space-around}
+ .tabbar a{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;color:var(--night-muted);text-decoration:none;padding:6px 8px;border-radius:var(--r-md);min-width:64px}
+ .tabbar a[aria-current="page"]{color:var(--night-ink);background:rgba(216,178,106,.14)}
+}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:820px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:14px}
+.kpi .n{font-family:var(--font-display);font-size:36px;line-height:1}
+.kpi .l{font-size:13px;color:var(--muted);margin-top:6px}
+.list{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;background:var(--surface)}
+.li{display:flex;gap:14px;align-items:center;padding:14px 16px;border-top:1px solid var(--line);text-decoration:none;color:inherit}
+.li:first-child{border-top:0}
+a.li:hover{background:var(--brand-soft)}
+.li .t{font-weight:600}
+.opps{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
+.opp{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column;text-decoration:none;color:inherit}
+.opp:hover{border-color:var(--muted)}
+.opp .map{aspect-ratio:16/9;background:var(--night)}
+.opp .b{padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.opp h3{font-size:22px}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden}
+.facts div{background:var(--surface);padding:10px 12px}
+.facts b{display:block;font-family:var(--font-display);font-size:22px;font-weight:400;line-height:1.1}
+.facts span{font-size:12px;color:var(--muted)}
+.mapbox{background:var(--night);border-radius:var(--r-lg);overflow:hidden;position:relative}
+.mapbox svg{display:block;width:100%;height:auto}
+.layers{display:flex;gap:6px;flex-wrap:wrap;padding:10px;background:var(--night-2)}
+.layers button{background:transparent;border:1px solid rgba(243,239,231,.25);color:var(--night-muted);border-radius:999px;padding:4px 10px;font-size:13px;cursor:pointer}
+.layers button[aria-pressed="true"]{background:rgba(216,178,106,.2);color:var(--night-ink);border-color:var(--oro)}
+.locked{position:relative;border:1px dashed var(--line);border-radius:var(--r-md);padding:14px;color:var(--muted)}
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.plan{border:1.5px solid var(--line);border-radius:var(--r-lg);padding:18px;background:var(--surface);display:flex;flex-direction:column;gap:10px;cursor:pointer;text-align:left}
+.plan[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.price{font-family:var(--font-display);font-size:40px;line-height:1}
+.price s{font-size:20px;color:var(--muted)}
+.plan ul{margin:0;padding-left:18px;font-size:14px;display:flex;flex-direction:column;gap:4px}
+.track{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.track div{font-size:12px;color:var(--muted);border-top:4px solid var(--line);padding-top:6px}
+.track div.done{border-color:var(--success);color:var(--ink)}
+.track div.now{border-color:var(--accent);color:var(--ink);font-weight:600}
+.report{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden}
+.report header{background:var(--night);color:var(--night-ink);padding:26px;position:relative;overflow:hidden}
+.report header>*{position:relative}
+.report section{padding:20px 26px;border-top:1px solid var(--line);display:grid;grid-template-columns:200px 1fr;gap:18px}
+.report section h3{font-size:20px}
+@media(max-width:720px){.report section{grid-template-columns:1fr;padding:18px}}
+.ai-tag{font-size:12px;color:var(--info);background:var(--info-soft);padding:2px 8px;border-radius:999px;display:inline-block}
+table.t{width:100%;border-collapse:collapse;font-size:14px}
+table.t th{text-align:left;font-weight:600;font-size:13px;color:var(--muted);padding:8px 10px;border-bottom:1px solid var(--line)}
+table.t td{padding:10px;border-bottom:1px solid var(--line);vertical-align:top}
+.scroll-x{overflow-x:auto}
+.empty{border:1px dashed var(--line);border-radius:var(--r-lg);padding:28px;text-align:center;display:flex;flex-direction:column;gap:10px;align-items:center}
+.callout{border-radius:var(--r-md);padding:12px 14px;font-size:14px;display:flex;gap:10px;align-items:flex-start}
+.callout.info{background:var(--info-soft);color:var(--ink)}
+.callout.warn{background:var(--warning-soft);color:var(--ink)}
+.callout.ok{background:var(--success-soft);color:var(--ink)}
+.pill-filters{display:flex;gap:8px;flex-wrap:wrap}
+.pill-filters select{min-height:38px;border-radius:999px;padding:0 12px;border:1px solid var(--line);background:var(--surface)}
+.legal-mini{font-size:12px;color:var(--night-muted)}
+.legal-mini a{color:inherit}
+.code{font-variant-numeric:tabular-nums;letter-spacing:.02em}
+@media print{.side,.top,.tabbar,.demo-bar,.no-print{display:none!important}.shell{display:block}.content{padding:0}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:520px){.top{gap:6px}.top .seg button,.auth-main .seg button{padding:8px 9px;font-size:13px}.top .btn-sm{padding-left:9px;padding-right:9px}}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><path id="wmpath" d="M28.6 0.9Q21.2 0.9 15.65 -3.7Q10.1 -8.3 7.05 -16.65Q4 -25 4 -36.4Q4 -47.4 7.35 -55.65Q10.7 -63.9 16.35 -68.45Q22 -73 28.9 -73Q33 -73 36.1 -72.25Q39.2 -71.5 41.6 -70.3Q42.8 -69.6 42.8 -68.2L43.1 -53Q43.1 -51.3 41.9 -51.3Q40.8 -51.3 40.5 -52.6L39.5 -56.3Q37.4 -64.1 34.65 -67.1Q31.9 -70.1 28.1 -70.1Q21.1 -70.1 16.45 -61.45Q11.8 -52.8 11.8 -36.4Q11.8 -25.2 14.15 -17.5Q16.5 -9.8 20.25 -5.9Q24 -2 28.2 -2Q32.7 -2 35.45 -4.8Q38.2 -7.6 40.1 -15.6L41.3 -20.5Q41.6 -22 42.9 -21.8Q44 -21.6 44 -20.1L43.6 -3.9Q43.6 -2.5 42.3 -1.8Q39.9 -0.6 36.65 0.15Q33.4 0.9 28.6 0.9Z M60 0.9Q55.8 0.9 53.1 -1.75Q50.4 -4.4 50.4 -8.8Q50.4 -13.1 53.1 -16.95Q55.8 -20.8 60.5 -23.9Q65.2 -27 71.2 -28.9Q72.5 -29.3 72.5 -30.6V-39.7Q72.5 -44.5 71 -46.55Q69.5 -48.6 66.9 -48.6Q64.4 -48.6 62.35 -46.35Q60.3 -44.1 59.4 -38.8Q58.9 -35.6 57.25 -34.15Q55.6 -32.7 53.9 -32.7Q51.1 -32.7 51.1 -35.5Q51.1 -38.4 52.75 -41.25Q54.4 -44.1 57.1 -46.45Q59.8 -48.8 63 -50.2Q66.2 -51.6 69.4 -51.6Q79.3 -51.6 79.3 -40.1V-9.5Q79.3 -5.3 81.4 -5.3Q82.7 -5.3 83.8 -7.05Q84.9 -8.8 84.9 -13Q84.9 -14.6 86.2 -14.6Q87.4 -14.6 87.4 -12.9Q87.4 -5.6 84.85 -2.35Q82.3 0.9 79.1 0.9Q76.7 0.9 75.3 -1.05Q73.9 -3 73.4 -5.7Q73.3 -6.7 72.55 -6.75Q71.8 -6.8 71.1 -5.8Q68.7 -2.5 66.2 -0.8Q63.7 0.9 60 0.9ZM62.7 -3.7Q65.3 -3.7 67.5 -5.55Q69.7 -7.4 71.1 -10.5Q72.5 -13.6 72.5 -17.5V-24.8Q72.5 -26.7 70.4 -25.9Q64.3 -23.7 60.95 -19.85Q57.6 -16 57.6 -10.6Q57.6 -3.7 62.7 -3.7Z M102.6 0.9Q99.1 0.9 96.85 -1.55Q94.6 -4 94.6 -9.6V-47Q94.6 -48.2 93.4 -48.2H90.5Q88.9 -48.2 88.9 -49.4Q88.9 -50.2 89.8 -50.8Q93.1 -53.1 95.1 -55.75Q97.1 -58.4 98.6 -63Q99.3 -65.1 100.3 -65.1Q101.4 -65.1 101.4 -63.5V-52.4Q101.4 -51 102.8 -51H109.3Q110.9 -51 110.9 -49.6Q110.9 -48.2 109.3 -48.2H102.8Q101.4 -48.2 101.4 -46.8V-9.5Q101.4 -7.3 102.1 -6.05Q102.8 -4.8 104.7 -4.8Q106.8 -4.8 108.15 -6.9Q109.5 -9 109.9 -13.7Q110.1 -15.1 111.2 -15.1Q112.4 -15.1 112.4 -13.6Q112.1 -5.9 109.25 -2.5Q106.4 0.9 102.6 0.9Z M133 0.9Q128.2 0.9 124.4 -2.3Q120.6 -5.5 118.35 -11.35Q116.1 -17.2 116.1 -24.9Q116.1 -32.8 118.4 -38.8Q120.7 -44.8 124.7 -48.2Q128.7 -51.6 133.6 -51.6Q139.5 -51.6 143.15 -46.75Q146.8 -41.9 146.8 -31Q146.8 -27.7 144.3 -27.7H125.3Q123.3 -27.7 123.3 -25.4Q123.3 -14.8 126.4 -9.5Q129.5 -4.2 134.3 -4.2Q138.1 -4.2 140.5 -6.9Q142.9 -9.6 144.4 -16Q144.7 -17.1 145.7 -17.1Q146.9 -17.1 146.6 -15.1Q145 -6.2 141.5 -2.65Q138 0.9 133 0.9ZM125 -30.2H135.1Q139.9 -30.2 139.9 -35.2Q139.9 -41.7 138.3 -45.4Q136.7 -49.1 133.5 -49.1Q129.6 -49.1 126.95 -44.6Q124.3 -40.1 123.5 -31.8Q123.3 -30.2 125 -30.2Z M169.6 0.9Q164.5 0.9 160.45 -2.55Q156.4 -6 154 -12Q151.6 -18 151.6 -25.4Q151.6 -32.8 154 -38.7Q156.4 -44.6 160.5 -48.1Q164.6 -51.6 169.6 -51.6Q174.7 -51.6 178.75 -48.1Q182.8 -44.6 185.2 -38.7Q187.6 -32.8 187.6 -25.4Q187.6 -18 185.25 -12Q182.9 -6 178.8 -2.55Q174.7 0.9 169.6 0.9ZM169.6 -1.6Q180 -1.6 180 -25.4Q180 -49.1 169.6 -49.1Q159.2 -49.1 159.2 -25.4Q159.2 -1.6 169.6 -1.6Z"/></defs></svg>
+<div id="app"></div>
+<div id="toast" class="toast" hidden role="status" aria-live="polite"></div>
+<script src="/config.js"></script>
+<script>
+/* ===== Configuración: se edita en /config.js (no aquí) ===== */
+var CC=window.CATEO_CONFIG||{};
+function lc(x){return String(x||'').trim().toLowerCase()}
+var CONFIG={
+  landingUrl:CC.siteUrl!==undefined?CC.siteUrl:'/',
+  pay:Object.assign({informe:'',vitrina:'',portafolio:'',screening:''},CC.polar||{}),
+  contactEmail:CC.contactEmail||'manyosa@limly.io',
+  whatsapp:String(CC.whatsapp||'').replace(/\D/g,''),
+  calUrl:CC.calUrl||'',
+  firebase:CC.firebase||{},
+  teamEmails:(CC.teamEmails||['manyosa@limly.io']).map(lc),
+  company:'Limly LLC'
+};
+CONFIG.invoiceEmail=CONFIG.supportEmail=CONFIG.contactEmail;
+function siteAbs(){var u=CONFIG.landingUrl||'/';return /^https?:/.test(u)?u:location.origin+(u.charAt(0)==='/'?u:'/'+u)}
+var PRICES = { informe:{now:149,list:190}, vitrina:{now:249,list:320}, portafolio:{now:590,list:760}, screening:{now:290,list:350} };
+
+/* ===== Textos ES / EN / PT ===== */
+var L = {
+ 
+ 
+ r_titular:['Titular','Owner','Titular'], r_inversion:['Inversionista','Investor','Investidor'], r_aliado:['Aliado','Partner','Parceiro'], r_ops:['Equipo','Team','Equipe'],
+ tagline:['Donde empieza cada mina.','Where every mine begins.','Onde começa cada mina.'],
+ side_pitch:['Informes bilingües de concesiones y un directorio donde los inversionistas filtran por metal y país.','Bilingual concession reports and a directory where investors filter by metal and country.','Relatórios bilíngues de concessões e um diretório onde investidores filtram por metal e país.'],
+ side_b1:['Tu concesión, presentada como la vería un inversionista.','Your concession, presented the way an investor would read it.','Sua concessão, apresentada como um investidor a leria.'],
+ side_b2:['Fuentes públicas oficiales, revisión humana antes de entregar.','Official public sources, human review before delivery.','Fontes públicas oficiais, revisão humana antes da entrega.'],
+ side_b3:['Español, inglés y portugués.','Spanish, English and Portuguese.','Espanhol, inglês e português.'],
+ legal:['Términos','Terms','Termos'], privacy:['Privacidad','Privacy','Privacidade'], aiuse:['Uso de IA','AI use','Uso de IA'], refunds:['Reembolsos','Refunds','Reembolsos'],
+ back_site:['Volver al sitio','Back to site','Voltar ao site'],
+ create:['Crear cuenta','Create account','Criar conta'], login:['Ya tengo cuenta','I have an account','Já tenho conta'],
+ who:['¿Cómo vas a usar Cateo?','How will you use Cateo?','Como você vai usar o Cateo?'],
+ role_t_d:['Tengo una o más concesiones y quiero venderlas, opcionarlas o conseguir socio.','I hold one or more concessions and want to sell, option or find a partner.','Tenho uma ou mais concessões e quero vender, opcionar ou achar sócio.'],
+ role_i_d:['Busco proyectos de exploración en los Andes, ya filtrados.','I look for pre-screened exploration projects in the Andes.','Busco projetos de exploração nos Andes, já filtrados.'],
+ role_a_d:['Soy geólogo, consultor o corredor y traigo clientes.','I’m a geologist, consultant or broker who brings clients.','Sou geólogo, consultor ou corretor e trago clientes.'],
+ name:['Nombre y apellido','Full name','Nome completo'], company:['Empresa (opcional)','Company (optional)','Empresa (opcional)'], country:['País','Country','País'],
+ email:['Correo','Email','E-mail'], phone:['WhatsApp (opcional)','WhatsApp (optional)','WhatsApp (opcional)'],
+ accept:['Acepto los términos, la política de privacidad y el uso de IA de Cateo (Limly LLC).','I accept Cateo’s terms, privacy policy and AI use policy (Limly LLC).','Aceito os termos, a política de privacidade e o uso de IA do Cateo (Limly LLC).'],
+ optin:['Quiero recibir oportunidades y novedades por correo. Puedo darme de baja cuando quiera.','Send me opportunities and news by email. I can unsubscribe anytime.','Quero receber oportunidades e novidades por e-mail. Posso cancelar quando quiser.'],
+ send_link:['Enviarme el enlace de acceso','Email me a sign-in link','Enviar link de acesso'],
+ nopass:['Sin contraseñas: entras con un enlace que llega a tu correo.','No passwords: you sign in with a link sent to your email.','Sem senhas: você entra com um link enviado ao seu e-mail.'],
+ check_mail:['Revisa tu correo','Check your email','Confira seu e-mail'],
+ sent_to:['Enviamos un enlace de acceso a','We sent a sign-in link to','Enviamos um link de acesso para'],
+ 
+ err_req:['Completa nombre, correo y acepta los términos para continuar.','Fill in name and email and accept the terms to continue.','Preencha nome e e-mail e aceite os termos para continuar.'],
+ err_mail:['Ese correo no parece válido. Revisa que tenga @ y dominio.','That email doesn’t look valid. Check the @ and domain.','Esse e-mail não parece válido. Confira o @ e o domínio.'],
+ welcome:['Bienvenido a Cateo','Welcome to Cateo','Bem-vindo ao Cateo'],
+ onb_t:['Así funciona para ti','Here’s how it works for you','Veja como funciona para você'],
+ onb_t1:['Registra tu concesión con su código de derecho minero.','Register your concession with its mining right code.','Cadastre sua concessão com o código do direito minerário.'],
+ onb_t2:['Mira la vista previa gratis y elige tu informe.','See the free preview and choose your report.','Veja a prévia grátis e escolha seu relatório.'],
+ onb_t3:['Recibe el informe bilingüe y publícalo en la vitrina para inversionistas.','Get the bilingual report and publish it in the investor showcase.','Receba o relatório bilíngue e publique na vitrine para investidores.'],
+ onb_i1:['Filtra oportunidades por metal, país y objetivo.','Filter opportunities by metal, country and goal.','Filtre oportunidades por metal, país e objetivo.'],
+ onb_i2:['Abre tres fichas completas gratis.','Open three full listings for free.','Abra três fichas completas grátis.'],
+ onb_i3:['Pide un screening con 10 oportunidades a tu medida.','Order a screening with 10 tailored opportunities.','Peça um screening com 10 oportunidades sob medida.'],
+ onb_a1:['Comparte tu enlace de aliado.','Share your partner link.','Compartilhe seu link de parceiro.'],
+ onb_a2:['Tus clientes piden su informe con tu código.','Your clients order with your code.','Seus clientes pedem com seu código.'],
+ onb_a3:['Ganas 20 % de cada venta durante 12 meses.','You earn 20% of each sale for 12 months.','Você ganha 20% de cada venda por 12 meses.'],
+ start:['Empezar','Get started','Começar'],
+ n_home:['Inicio','Home','Início'], n_conc:['Mis concesiones','My concessions','Minhas concessões'], n_new:['Nueva concesión','New concession','Nova concessão'], n_orders:['Pedidos','Orders','Pedidos'],
+ n_dir:['Directorio','Directory','Diretório'], n_int:['Mis intereses','My interests','Meus interesses'], n_scr:['Screening','Screening','Screening'],
+ n_partner:['Mi panel de aliado','Partner panel','Painel de parceiro'], n_ops:['Operaciones','Operations','Operações'], n_set:['Ajustes','Settings','Ajustes'],
+ hello:['Hola','Hello','Olá'],
+ home_sub:['Lo que tu concesión tiene, a la vista.','What your concession holds, in plain sight.','O que sua concessão tem, à vista.'],
+ k_conc:['Concesiones registradas','Concessions registered','Concessões cadastradas'], k_orders:['Informes pedidos','Reports ordered','Relatórios pedidos'], k_live:['En la vitrina','In the showcase','Na vitrine'], k_int:['Inversionistas interesados','Interested investors','Investidores interessados'],
+ add_conc:['Registrar una concesión','Register a concession','Cadastrar uma concessão'],
+ empty_conc:['Aún no registras concesiones. Empieza con el código de derecho minero: la vista previa es gratis.','No concessions yet. Start with the mining right code: the preview is free.','Ainda não há concessões. Comece com o código do direito minerário: a prévia é grátis.'],
+ pdac:['PDAC 2027 es del 7 al 10 de marzo en Toronto. Los inversionistas arman su lista desde diciembre.','PDAC 2027 runs March 7–10 in Toronto. Investors build their lists from December.','A PDAC 2027 será de 7 a 10 de março em Toronto. Investidores montam suas listas desde dezembro.'],
+ f_code:['Código del derecho minero','Mining right code','Código do direito minerário'],
+ f_code_h:['En Perú tiene 9 dígitos y aparece en GEOCATMIN y en tu título.','In Peru it has 9 digits and appears in GEOCATMIN and your title.','No Peru tem 9 dígitos e aparece no GEOCATMIN e no título.'],
+ f_cname:['Nombre de la concesión','Concession name','Nome da concessão'], f_region:['Región o departamento','Region','Região'], f_ha:['Hectáreas','Hectares','Hectares'],
+ f_metal:['Metal principal','Main metal','Metal principal'], f_status:['Estado','Status','Situação'], st_tit:['Titulada','Titled','Titulada'], st_tram:['En trámite','In process','Em trâmite'],
+ f_goal:['¿Qué buscas?','What are you looking for?','O que você busca?'], g_sell:['Vender','Sell','Vender'], g_option:['Opción de compra','Option agreement','Opção de compra'], g_partner:['Socio o joint venture','Partner or joint venture','Sócio ou joint venture'], g_value:['Solo conocer su potencial','Just learn its potential','Só conhecer o potencial'],
+ f_vig:['¿Estás al día en el derecho de vigencia?','Are mining fees up to date?','Taxas de vigência em dia?'], yes:['Sí','Yes','Sim'], no:['No','No','Não'], dunno:['No sé','Not sure','Não sei'],
+ f_price:['Precio o expectativa (opcional)','Asking price or expectation (optional)','Preço ou expectativa (opcional)'],
+ f_notes:['Lo que sabes de la zona (opcional)','What you know about the area (optional)','O que você sabe da área (opcional)'],
+ f_notes_h:['Muestreos, labores antiguas, accesos, conversaciones con la comunidad.','Sampling, old workings, access, community conversations.','Amostragens, labores antigas, acessos, conversas com a comunidade.'],
+ see_preview:['Ver vista previa gratis','See free preview','Ver prévia grátis'],
+ err_code:['El código debe tener entre 8 y 12 dígitos. Revísalo en tu título o en GEOCATMIN.','The code must have 8 to 12 digits. Check your title or GEOCATMIN.','O código deve ter de 8 a 12 dígitos. Confira no título ou no GEOCATMIN.'],
+ err_cform:['Completa código, nombre, región y hectáreas.','Fill in code, name, region and hectares.','Preencha código, nome, região e hectares.'],
+ preview:['Vista previa automática','Automatic preview','Prévia automática'],
+ 
+ l_geo:['Geología','Geology','Geologia'], l_occ:['Ocurrencias','Occurrences','Ocorrências'], l_road:['Accesos','Access','Acessos'], l_anp:['Áreas restringidas','Restricted areas','Áreas restritas'], l_water:['Agua','Water','Água'],
+ fx_road:['km a vía afirmada','km to gravel road','km até estrada'], fx_occ:['ocurrencias en 10 km','occurrences within 10 km','ocorrências em 10 km'], fx_alt:['m s. n. m. promedio','m a.s.l. average','m de altitude média'],
+ in_report:['Disponible en el informe','Available in the report','Disponível no relatório'],
+ lk1:['Geología regional e interpretación','Regional geology and interpretation','Geologia regional e interpretação'], lk2:['Señales de alteración ASTER y Sentinel-2','ASTER and Sentinel-2 alteration signals','Sinais de alteração ASTER e Sentinel-2'], lk3:['Entorno social y áreas restringidas','Social setting and restricted areas','Entorno social e áreas restritas'], lk4:['Ficha bilingüe lista para enviar','Bilingual one-pager ready to send','Ficha bilíngue pronta para enviar'],
+ choose_plan:['Elige tu informe','Choose your report','Escolha seu relatório'],
+ p_informe:['Informe Cateo','Cateo report','Relatório Cateo'], p_vitrina:['Informe + Vitrina','Report + Showcase','Relatório + Vitrine'], p_portafolio:['Portafolio (5 concesiones)','Portfolio (5 concessions)','Portfólio (5 concessões)'], p_screening:['Screening para inversionistas','Investor screening','Screening para investidores'],
+ 
+ inc_informe:['Informe de 10 a 14 páginas en español e inglés','10–14 page report in Spanish and English','Relatório de 10 a 14 páginas em espanhol e inglês','Mapa de ubicación, geología y ocurrencias','Location, geology and occurrences map','Mapa de localização, geologia e ocorrências','Ficha de una página para inversionistas','One-page investor sheet','Ficha de uma página para investidores','Entrega en 3 días hábiles','Delivered in 3 business days','Entrega em 3 dias úteis'],
+ inc_vitrina:['Todo el Informe Cateo','Everything in the Cateo report','Tudo do Relatório Cateo','6 meses en la vitrina para inversionistas','6 months in the investor showcase','6 meses na vitrine para investidores','Envío a nuestra lista de inversionistas','Sent to our investor list','Envio à nossa lista de investidores','Versión en portugués','Portuguese version','Versão em português'],
+ inc_portafolio:['5 informes bilingües','5 bilingual reports','5 relatórios bilíngues','Vitrina para las 5 por 6 meses','Showcase for all 5 for 6 months','Vitrine para as 5 por 6 meses','Resumen de portafolio','Portfolio summary','Resumo do portfólio','Llamada de 30 minutos','30-minute call','Chamada de 30 minutos'],
+ inc_screening:['10 oportunidades filtradas a tu medida','10 opportunities filtered to your brief','10 oportunidades filtradas sob medida','Fichas en inglés con mapa','English sheets with map','Fichas em inglês com mapa','Contacto verificado del titular','Verified owner contact','Contato verificado do titular','Entrega en 5 días hábiles','Delivered in 5 business days','Entrega em 5 dias úteis'],
+ continue_pay:['Continuar al pago','Continue to payment','Continuar para o pagamento'],
+ pay_t:['Pago','Payment','Pagamento'], order_sum:['Resumen del pedido','Order summary','Resumo do pedido'],
+ pay_card:['Pagar con tarjeta o PayPal','Pay by card or PayPal','Pagar com cartão ou PayPal'],
+ pay_inv:['Pedir factura o transferencia','Request invoice or wire','Pedir fatura ou transferência'],
+ pay_done:['Ya pagué: confirmar','I paid: confirm','Já paguei: confirmar'],
+ 
+ pay_note:['El cobro lo emite Limly LLC, empresa de Estados Unidos, en dólares. Garantía: si el informe no te sirve, te devolvemos el dinero en 7 días desde la entrega.','Limly LLC, a US company, charges in US dollars. Guarantee: if the report doesn’t help you, we refund within 7 days of delivery.','A cobrança é emitida pela Limly LLC, empresa dos EUA, em dólares. Garantia: se o relatório não servir, devolvemos em 7 dias após a entrega.'],
+ pay_terms:['Acepto los términos de compra y la política de reembolsos.','I accept the purchase terms and refund policy.','Aceito os termos de compra e a política de reembolso.'],
+ 
+ paid_ok:['Pago confirmado. Empezamos tu informe.','Payment confirmed. We’re starting your report.','Pagamento confirmado. Começamos seu relatório.'],
+ s1:['Pagado','Paid','Pago'], s2:['Recopilando datos','Collecting data','Coletando dados'], s3:['Revisión técnica','Technical review','Revisão técnica'], s4:['Entregado','Delivered','Entregue'],
+ eta:['Entrega estimada','Estimated delivery','Entrega estimada'],
+ view_report:['Ver informe','View report','Ver relatório'], 
+ no_orders:['Todavía no hay pedidos. Elige una concesión y pide su informe.','No orders yet. Pick a concession and order its report.','Ainda não há pedidos. Escolha uma concessão e peça o relatório.'],
+ publish:['Publicar en la vitrina','Publish in the showcase','Publicar na vitrine'], published:['Publicada en la vitrina','Published in the showcase','Publicada na vitrine'],
+ need_vitrina:['La vitrina viene con el plan Informe + Vitrina. Puedes sumarla por US$ 100.','The showcase comes with Report + Showcase. Add it for US$100.','A vitrine vem com Relatório + Vitrine. Adicione por US$ 100.'],
+ print:['Imprimir o guardar PDF','Print or save PDF','Imprimir ou salvar PDF'],
+ disclaimer:['Este informe se basa en información pública y tiene carácter referencial. No es un reporte técnico NI 43-101, JORC ni equivalente, no estima recursos ni reservas y no es una recomendación de inversión.','This report is based on public information and is for reference only. It is not an NI 43-101, JORC or equivalent technical report, does not estimate resources or reserves, and is not investment advice.','Este relatório se baseia em informação pública e tem caráter referencial. Não é um relatório técnico NI 43-101, JORC ou equivalente, não estima recursos nem reservas e não é recomendação de investimento.'],
+ ai_drafted:['Redactado con apoyo de IA y revisado por una persona','Drafted with AI support and reviewed by a person','Redigido com apoio de IA e revisado por uma pessoa'],
+ dir_t:['Oportunidades andinas, ya filtradas.','Andean opportunities, pre-screened.','Oportunidades andinas, já filtradas.'],
+ dir_sub:['Fichas con titularidad verificada en el catastro público. Abre 3 completas gratis.','Listings with title checked against the public cadastre. Open 3 in full for free.','Fichas com titularidade verificada no cadastro público. Abra 3 completas grátis.'],
+ all_metals:['Todos los metales','All metals','Todos os metais'], all_countries:['Todos los países','All countries','Todos os países'], all_goals:['Cualquier objetivo','Any goal','Qualquer objetivo'],
+ sample:['Ejemplo','Sample','Exemplo'],
+ st_ok:['Calificada','Qualified','Qualificada'], st_warn:['Por verificar','To verify','A verificar'], st_info:['Con interés','Investor interest','Com interesse'], st_danger:['No disponible','Unavailable','Indisponível'],
+ free_left:['fichas completas gratis restantes','free full listings left','fichas completas grátis restantes'],
+ unlock:['Abrir ficha completa','Open full listing','Abrir ficha completa'],
+ no_free:['Usaste tus 3 fichas gratis. El screening te da 10 a tu medida.','You used your 3 free listings. A screening gives you 10 tailored ones.','Você usou suas 3 fichas grátis. O screening te dá 10 sob medida.'],
+ interest:['Expresar interés','Express interest','Manifestar interesse'],
+ nda:['Acepto mantener confidencial la información del titular y no contactarlo por fuera de Cateo durante 12 meses.','I agree to keep the owner’s information confidential and not to contact them outside Cateo for 12 months.','Concordo em manter confidenciais as informações do titular e não contatá-lo fora do Cateo por 12 meses.'],
+ int_sent:['Interés enviado. Te conectamos con el titular en 48 horas hábiles.','Interest sent. We’ll connect you with the owner within 48 business hours.','Interesse enviado. Conectamos você ao titular em 48 horas úteis.'],
+ no_int:['Aún no marcas interés en ninguna oportunidad.','You haven’t expressed interest in any opportunity yet.','Você ainda não manifestou interesse em nenhuma oportunidade.'],
+ scr_t:['Screening a tu medida','Tailored screening','Screening sob medida'],
+ scr_sub:['Dinos qué buscas y te entregamos 10 oportunidades con ficha en inglés y contacto verificado.','Tell us what you look for and we deliver 10 opportunities with English sheets and verified contact.','Diga o que procura e entregamos 10 oportunidades com ficha em inglês e contato verificado.'],
+ scr_metals:['Metales','Metals','Metais'], scr_where:['Países o regiones','Countries or regions','Países ou regiões'], scr_stage:['Etapa','Stage','Etapa'], scr_size:['Tamaño mínimo (ha)','Minimum size (ha)','Tamanho mínimo (ha)'], scr_deal:['Tipo de acuerdo','Deal type','Tipo de acordo'],
+ stg_grass:['Grassroots','Grassroots','Grassroots'], stg_early:['Exploración temprana','Early exploration','Exploração inicial'], stg_adv:['Con labores o muestreo','With workings or sampling','Com labores ou amostragem'],
+ order_scr:['Pedir screening','Order screening','Pedir screening'],
+ ref_t:['Tu enlace de aliado','Your partner link','Seu link de parceiro'], ref_copy:['Copiar enlace','Copy link','Copiar link'], copied:['Copiado','Copied','Copiado'],
+ ref_rule:['Ganas 20 % de cada informe, vitrina o screening que llegue con tu código, durante 12 meses. Pagamos el día 5 de cada mes.','You earn 20% of every report, showcase or screening that arrives with your code, for 12 months. Paid on the 5th of each month.','Você ganha 20% de cada relatório, vitrine ou screening que chegar com seu código, por 12 meses. Pagamos no dia 5 de cada mês.'],
+ ref_clients:['Clientes referidos','Referred clients','Clientes indicados'], ref_earn:['Comisión del mes','Commission this month','Comissão do mês'],
+ ops_t:['Operaciones: pedidos en curso','Operations: orders in progress','Operações: pedidos em andamento'],
+ ops_sub:['Lo usa el equipo para producir y entregar cada informe a tiempo.','The team uses it to produce and deliver each report on time.','A equipe usa para produzir e entregar cada relatório no prazo.'],
+ ops_check:['Lista de producción','Production checklist','Lista de produção'],
+ c1:['Titularidad y vigencia en GEOCATMIN','Title and status in GEOCATMIN','Titularidade e vigência no GEOCATMIN'], c2:['Geología 1:100 000 y boletín de Ingemmet','1:100,000 geology and Ingemmet bulletin','Geologia 1:100.000 e boletim do Ingemmet'], c3:['Ocurrencias y proyectos cercanos','Nearby occurrences and projects','Ocorrências e projetos próximos'], c4:['ANP (SERNANP), zonas arqueológicas y comunidades (BDPI)','Protected areas, archaeological zones and communities','ANP, zonas arqueológicas e comunidades'], c5:['Accesos y agua (MTC, ANA)','Access and water (MTC, ANA)','Acessos e água (MTC, ANA)'], c6:['ASTER y Sentinel-2: alteración','ASTER and Sentinel-2: alteration','ASTER e Sentinel-2: alteração'], c7:['Redacción con IA y revisión humana','AI drafting and human review','Redação com IA e revisão humana'], c8:['Traducción EN/PT y ficha de una página','EN/PT translation and one-pager','Tradução EN/PT e ficha de uma página'],
+ interests_q:['Intereses por conectar','Interests to connect','Interesses a conectar'],
+ set_t:['Ajustes','Settings','Ajustes'], lang:['Idioma','Language','Idioma'], theme:['Tema','Theme','Tema'], th_auto:['Automático','Auto','Automático'], th_light:['Claro','Light','Claro'], th_dark:['Oscuro','Dark','Escuro'],
+ data_t:['Tus datos','Your data','Seus dados'], export:['Copiar mis datos (JSON)','Copy my data (JSON)','Copiar meus dados (JSON)'], del:['Borrar mi cuenta y datos','Delete my account and data','Excluir minha conta e dados'],
+ del_q:['¿Borrar tu cuenta y todos tus datos de este navegador? No se puede deshacer.','Delete your account and all data in this browser? This can’t be undone.','Excluir sua conta e todos os dados deste navegador? Não dá para desfazer.'],
+ logout:['Cerrar sesión','Sign out','Sair'],
+ data_note:['Tus datos son tuyos: no los vendemos ni entrenan modelos de terceros.','Your data is yours: we don’t sell it or use it to train third-party models.','Seus dados são seus: não vendemos nem usamos para treinar modelos de terceiros.'],
+ back:['Volver','Back','Voltar'], save:['Guardar','Save','Salvar'], open:['Abrir','Open','Abrir'], help:['Ayuda','Help','Ajuda'],
+ contact_wa:['Escribir por WhatsApp','Message on WhatsApp','Escrever no WhatsApp'], contact_mail:['Escribir por correo','Email us','Enviar e-mail'],
+ meeting:['Agendar reunión','Book a meeting','Agendar reunião'],
+ owner_note:['Información del titular visible después de conectar.','Owner details visible after connection.','Dados do titular visíveis após a conexão.'],
+ goal_label:['Objetivo','Goal','Objetivo'], area:['Área','Area','Área'], metal:['Metal','Metal','Metal'], region:['Región','Region','Região'],
+ summary:['Resumen','Summary','Resumo'], loc:['Ubicación y accesos','Location and access','Localização e acessos'], geol:['Geología regional','Regional geology','Geologia regional'], occs:['Ocurrencias cercanas','Nearby occurrences','Ocorrências próximas'], sat:['Señales satelitales','Satellite signals','Sinais de satélite'], env:['Entorno y restricciones','Setting and restrictions','Entorno e restrições'], legalst:['Estado legal','Legal status','Situação legal'], next:['Próximos pasos','Next steps','Próximos passos'],
+ report_lang:['Idioma del informe','Report language','Idioma do relatório'],
+ code_l:['Código','Code','Código'],
+ map:['Mapa','Map','Mapa'], notice:['Aviso','Notice','Aviso']
+};
+var L_FR={"demo": "", "viewas": "Voir en tant que", "r_titular": "Titulaire", "r_inversion": "Investisseur", "r_aliado": "Partenaire", "r_ops": "Équipe", "tagline": "Là où commence chaque mine.", "side_pitch": "Rapports bilingues de concessions et un annuaire où les investisseurs filtrent par métal et par pays.", "side_b1": "Votre concession, présentée comme la lirait un investisseur.", "side_b2": "Sources publiques officielles, relecture humaine avant livraison.", "side_b3": "Plateforme en espagnol, anglais, portugais et français.", "legal": "Conditions", "privacy": "Confidentialité", "aiuse": "Usage de l’IA", "refunds": "Remboursements", "back_site": "Retour au site", "create": "Créer un compte", "login": "J’ai déjà un compte", "who": "Comment allez-vous utiliser Cateo ?", "role_t_d": "Je détiens une ou plusieurs concessions et je veux les vendre, les optionner ou trouver un associé.", "role_i_d": "Je cherche des projets d’exploration dans les Andes, déjà filtrés.", "role_a_d": "Je suis géologue, consultant ou courtier et j’apporte des clients.", "name": "Prénom et nom", "company": "Entreprise (facultatif)", "country": "Pays", "email": "E-mail", "phone": "WhatsApp (facultatif)", "accept": "J’accepte les conditions, la politique de confidentialité et la politique d’usage de l’IA de Cateo (Limly LLC).", "optin": "Je souhaite recevoir des opportunités et des nouvelles par e-mail. Je peux me désinscrire à tout moment.", "send_link": "M’envoyer le lien de connexion", "nopass": "Sans mot de passe : vous vous connectez avec un lien envoyé à votre e-mail.", "check_mail": "Consultez votre e-mail", "sent_to": "Nous avons envoyé un lien de connexion à", "open_link": "", "err_req": "Indiquez votre nom et votre e-mail et acceptez les conditions pour continuer.", "err_mail": "Cet e-mail ne semble pas valide. Vérifiez le @ et le domaine.", "welcome": "Bienvenue sur Cateo", "onb_t": "Voici comment cela fonctionne pour vous", "onb_t1": "Enregistrez votre concession avec le code de son droit minier.", "onb_t2": "Consultez l’aperçu gratuit et choisissez votre rapport.", "onb_t3": "Recevez le rapport bilingue et publiez-le dans la vitrine pour investisseurs.", "onb_i1": "Filtrez les opportunités par métal, pays et objectif.", "onb_i2": "Ouvrez trois fiches complètes gratuitement.", "onb_i3": "Demandez un screening de 10 opportunités sur mesure.", "onb_a1": "Partagez votre lien de partenaire.", "onb_a2": "Vos clients commandent avec votre code.", "onb_a3": "Vous touchez 20 % de chaque vente pendant 12 mois.", "start": "Commencer", "n_home": "Accueil", "n_conc": "Mes concessions", "n_new": "Nouvelle concession", "n_orders": "Commandes", "n_dir": "Annuaire", "n_int": "Mes intérêts", "n_scr": "Screening", "n_partner": "Mon espace partenaire", "n_ops": "Opérations", "n_set": "Réglages", "hello": "Bonjour", "home_sub": "Ce que contient votre concession, sous vos yeux.", "k_conc": "Concessions enregistrées", "k_orders": "Rapports commandés", "k_live": "Dans la vitrine", "k_int": "Investisseurs intéressés", "add_conc": "Enregistrer une concession", "empty_conc": "Vous n’avez encore enregistré aucune concession. Commencez par le code du droit minier : l’aperçu est gratuit.", "pdac": "PDAC 2027 se tient du 7 au 10 mars à Toronto. Les investisseurs établissent leur liste dès décembre.", "f_code": "Code du droit minier", "f_code_h": "Au Pérou, il comporte 9 chiffres et figure dans GEOCATMIN et sur votre titre.", "f_cname": "Nom de la concession", "f_region": "Région ou département", "f_ha": "Hectares", "f_metal": "Métal principal", "f_status": "Statut", "st_tit": "Titrée", "st_tram": "En cours d’instruction", "f_goal": "Que recherchez-vous ?", "g_sell": "Vendre", "g_option": "Option d’achat", "g_partner": "Associé ou joint-venture", "g_value": "Seulement connaître son potentiel", "f_vig": "Votre redevance annuelle est-elle à jour ?", "yes": "Oui", "no": "Non", "dunno": "Je ne sais pas", "f_price": "Prix ou attente (facultatif)", "f_notes": "Ce que vous savez de la zone (facultatif)", "f_notes_h": "Échantillonnages, anciens travaux, accès, échanges avec la communauté.", "see_preview": "Voir l’aperçu gratuit", "err_code": "Le code doit comporter 8 à 12 chiffres. Vérifiez-le sur votre titre ou dans GEOCATMIN.", "err_cform": "Indiquez le code, le nom, la région et les hectares.", "preview": "Aperçu automatique", "preview_note": "", "l_geo": "Géologie", "l_occ": "Indices", "l_road": "Accès", "l_anp": "Zones restreintes", "l_water": "Eau", "fx_road": "km d’une piste carrossable", "fx_occ": "indices dans un rayon de 10 km", "fx_alt": "m d’altitude moyenne", "in_report": "Disponible dans le rapport", "lk1": "Géologie régionale et interprétation", "lk2": "Signaux d’altération ASTER et Sentinel-2", "lk3": "Contexte social et zones restreintes", "lk4": "Fiche bilingue d’une page prête à envoyer", "choose_plan": "Choisissez votre rapport", "p_informe": "Rapport Cateo", "p_vitrina": "Rapport + Vitrine", "p_portafolio": "Portefeuille (5 concessions)", "p_screening": "Screening pour investisseurs", "founder": "", "inc_informe": ["Rapport de 10 à 14 pages en espagnol et en anglais", "Carte de situation, géologie et indices", "Fiche d’une page pour investisseurs", "Livraison en 3 jours ouvrés"], "inc_vitrina": ["Tout le Rapport Cateo", "6 mois dans la vitrine pour investisseurs", "Envoi à notre liste d’investisseurs", "Version en portugais"], "inc_portafolio": ["5 rapports bilingues", "Vitrine pour les 5 pendant 6 mois", "Synthèse du portefeuille", "Appel de 30 minutes"], "inc_screening": ["10 opportunités filtrées sur mesure", "Fiches en anglais avec carte", "Contact vérifié du titulaire", "Livraison en 5 jours ouvrés"], "continue_pay": "Continuer vers le paiement", "pay_t": "Paiement", "order_sum": "Récapitulatif de la commande", "pay_card": "Payer par carte", "pay_inv": "Demander une facture ou un virement", "pay_done": "J’ai payé : confirmer", "pay_sim": "", "pay_note": "Le paiement est encaissé par Limly LLC, société américaine, en dollars. Garantie : si le rapport ne vous sert pas, nous vous remboursons dans les 7 jours suivant la livraison.", "pay_terms": "J’accepte les conditions d’achat et la politique de remboursement.", "pay_nolink": "", "paid_ok": "Paiement confirmé. Nous commençons votre rapport.", "s1": "", "s2": "Collecte des données", "s3": "Relecture technique", "s4": "Livré", "eta": "Livraison estimée", "view_report": "Voir le rapport", "advance": "", "no_orders": "Aucune commande pour l’instant. Choisissez une concession et commandez son rapport.", "publish": "Publier dans la vitrine", "published": "Publiée dans la vitrine", "need_vitrina": "La vitrine est incluse dans la formule Rapport + Vitrine. Vous pouvez l’ajouter pour 100 US$.", "print": "Imprimer ou enregistrer en PDF", "disclaimer": "Ce rapport repose sur des informations publiques et a une valeur indicative. Ce n’est pas un rapport technique NI 43-101, JORC ou équivalent, il n’estime ni ressources ni réserves et ne constitue pas une recommandation d’investissement.", "ai_drafted": "Rédigé avec l’aide de l’IA et relu par une personne", "dir_t": "Opportunités andines, déjà filtrées.", "dir_sub": "Fiches avec titre vérifié dans le cadastre public. Ouvrez-en 3 complètes gratuitement.", "all_metals": "Tous les métaux", "all_countries": "Tous les pays", "all_goals": "Tout objectif", "sample": "Exemple", "st_ok": "Qualifiée", "st_warn": "À vérifier", "st_info": "Intérêt reçu", "st_danger": "Indisponible", "free_left": "fiches complètes gratuites restantes", "unlock": "Ouvrir la fiche complète", "no_free": "Vous avez utilisé vos 3 fiches gratuites. Le screening vous en donne 10 sur mesure.", "interest": "Manifester mon intérêt", "nda": "J’accepte de garder confidentielles les informations du titulaire et de ne pas le contacter en dehors de Cateo pendant 12 mois.", "int_sent": "Intérêt envoyé. Nous vous mettons en relation avec le titulaire sous 48 heures ouvrées.", "no_int": "Vous n’avez encore manifesté d’intérêt pour aucune opportunité.", "scr_t": "Screening sur mesure", "scr_sub": "Dites-nous ce que vous cherchez et nous vous livrons 10 opportunités avec fiche en anglais et contact vérifié.", "scr_metals": "Métaux", "scr_where": "Pays ou régions", "scr_stage": "Stade", "scr_size": "Superficie minimale (ha)", "scr_deal": "Type d’accord", "stg_grass": "Grassroots", "stg_early": "Exploration précoce", "stg_adv": "Avec travaux ou échantillonnage", "order_scr": "Demander un screening", "ref_t": "Votre lien de partenaire", "ref_copy": "Copier le lien", "copied": "Copié", "ref_rule": "Vous touchez 20 % de chaque rapport, vitrine ou screening réalisé avec votre code, pendant 12 mois. Paiement le 5 de chaque mois.", "ref_clients": "Clients recommandés", "ref_earn": "Commission du mois", "ops_t": "Opérations : commandes en cours", "ops_sub": "L’équipe l’utilise pour produire et livrer chaque rapport à temps.", "ops_check": "Liste de production", "c1": "Titre et statut dans GEOCATMIN", "c2": "Géologie au 1:100 000 et bulletin de l’Ingemmet", "c3": "Indices et projets voisins", "c4": "Aires protégées (SERNANP), zones archéologiques et communautés", "c5": "Accès et eau (MTC, ANA)", "c6": "ASTER et Sentinel-2 : altération", "c7": "Rédaction par IA et relecture humaine", "c8": "Traduction EN/PT et fiche d’une page", "interests_q": "Intérêts à mettre en relation", "set_t": "Réglages", "lang": "Langue", "theme": "Thème", "th_auto": "Automatique", "th_light": "Clair", "th_dark": "Sombre", "data_t": "Vos données", "export": "Copier mes données (JSON)", "del": "Supprimer mon compte et mes données", "del_q": "", "logout": "Se déconnecter", "data_note": "Vos données vous appartiennent : nous ne les vendons pas et elles n’entraînent pas de modèles tiers.", "back": "Retour", "save": "Enregistrer", "open": "Ouvrir", "help": "Aide", "contact_wa": "Écrire sur WhatsApp", "contact_mail": "Écrire par e-mail", "meeting": "Prendre rendez-vous", "owner_note": "Coordonnées du titulaire visibles après la mise en relation.", "goal_label": "Objectif", "area": "Superficie", "metal": "Métal", "region": "Région", "summary": "Résumé", "loc": "Situation et accès", "geol": "Géologie régionale", "occs": "Indices voisins", "sat": "Signaux satellitaires", "env": "Contexte et restrictions", "legalst": "Statut juridique", "next": "Prochaines étapes", "report_lang": "Langue du rapport", "code_l": "Code", "map": "Carte", "notice": "Avis"};
+var L_NEW={"side_b3": ["Plataforma en español, inglés, portugués y francés.", "Platform in Spanish, English, Portuguese and French.", "Plataforma em espanhol, inglês, português e francês.", "Plateforme en espagnol, anglais, portugais et français."], "preview_note": ["Vista previa calculada a partir del código, con valores referenciales. El informe usa GEOCATMIN, boletines de Ingemmet, ASTER y Sentinel-2, y lo revisa una persona.", "Preview computed from the code, with indicative values. The report uses GEOCATMIN, Ingemmet bulletins, ASTER and Sentinel-2, and a person reviews it.", "Prévia calculada a partir do código, com valores indicativos. O relatório usa GEOCATMIN, boletins do Ingemmet, ASTER e Sentinel-2, e uma pessoa revisa.", "Aperçu calculé à partir du code, avec des valeurs indicatives. Le rapport s’appuie sur GEOCATMIN, les bulletins de l’Ingemmet, ASTER et Sentinel-2, et une personne le relit."], "founder": ["Precio fundador por tiempo limitado", "Founder price for a limited time", "Preço fundador por tempo limitado", "Prix fondateur pour une durée limitée"], "create_go": ["Crear mi cuenta", "Create my account", "Criar minha conta", "Créer mon compte"], "login_go": ["Entrar", "Sign in", "Entrar", "Se connecter"], "local_note": ["Tu cuenta y tus datos se guardan en este dispositivo.", "Your account and data are saved on this device.", "Sua conta e seus dados ficam salvos neste dispositivo.", "Votre compte et vos données sont enregistrés sur cet appareil."], "no_account": ["No encontramos una cuenta con ese correo en este dispositivo. Crea una en segundos.", "We couldn’t find an account with that email on this device. Create one in seconds.", "Não encontramos uma conta com esse e-mail neste dispositivo. Crie uma em segundos.", "Aucun compte avec cet e-mail sur cet appareil. Créez-en un en quelques secondes."], "mail_hint": ["Abre el enlace desde este mismo dispositivo. Si no llega en 2 minutos, revisa spam o promociones.", "Open the link on this same device. If it doesn’t arrive within 2 minutes, check spam or promotions.", "Abra o link neste mesmo dispositivo. Se não chegar em 2 minutos, confira spam ou promoções.", "Ouvrez le lien sur ce même appareil. S’il n’arrive pas sous 2 minutes, vérifiez les spams ou les promotions."], "resend": ["Usar otro correo", "Use another email", "Usar outro e-mail", "Utiliser un autre e-mail"], "confirm_mail": ["Confirma tu correo para terminar de entrar", "Confirm your email to finish signing in", "Confirme seu e-mail para terminar de entrar", "Confirmez votre e-mail pour terminer la connexion"], "confirm_go": ["Confirmar y entrar", "Confirm and sign in", "Confirmar e entrar", "Confirmer et se connecter"], "link_err": ["El enlace venció o ya se usó. Pide uno nuevo.", "The link expired or was already used. Request a new one.", "O link expirou ou já foi usado. Peça um novo.", "Le lien a expiré ou a déjà été utilisé. Demandez-en un nouveau."], "net_err": ["No pudimos conectar. Revisa tu internet e inténtalo otra vez.", "We couldn’t connect. Check your connection and try again.", "Não conseguimos conectar. Confira sua internet e tente de novo.", "Connexion impossible. Vérifiez votre connexion et réessayez."], "loading": ["Cargando…", "Loading…", "Carregando…", "Chargement…"], "pay_card": ["Pagar con tarjeta", "Pay by card", "Pagar com cartão", "Payer par carte"], "pay_open_note": ["El pago seguro se abre en una pestaña nueva. Al terminar vuelves aquí y tu pedido queda registrado.", "Secure checkout opens in a new tab. When you finish you come back here and your order is recorded.", "O pagamento seguro abre em uma nova aba. Ao terminar você volta aqui e seu pedido fica registrado.", "Le paiement sécurisé s’ouvre dans un nouvel onglet. À la fin, vous revenez ici et votre commande est enregistrée."], "pay_req": ["Hacer el pedido y coordinar el pago", "Place the order and arrange payment", "Fazer o pedido e combinar o pagamento", "Passer la commande et organiser le paiement"], "pay_req_note": ["Registramos tu pedido y te escribimos en un día hábil con el enlace de pago con tarjeta o los datos para transferencia. Tu informe empieza cuando confirmamos el pago.", "We record your order and email you within one business day with a card payment link or wire details. Your report starts once payment is confirmed.", "Registramos seu pedido e escrevemos em um dia útil com o link de pagamento por cartão ou os dados para transferência. Seu relatório começa quando confirmamos o pagamento.", "Nous enregistrons votre commande et vous écrivons sous un jour ouvré avec un lien de paiement par carte ou les coordonnées de virement. Votre rapport démarre dès la confirmation du paiement."], "order_req_ok": ["Pedido registrado. Te escribimos en un día hábil para coordinar el pago.", "Order recorded. We’ll email you within one business day to arrange payment.", "Pedido registrado. Escrevemos em um dia útil para combinar o pagamento.", "Commande enregistrée. Nous vous écrivons sous un jour ouvré pour organiser le paiement."], "paid_back": ["Recibimos tu pago. Lo verificamos y empezamos tu informe.", "We received your payment. We’re verifying it and starting your report.", "Recebemos seu pagamento. Vamos verificá-lo e começar seu relatório.", "Nous avons reçu votre paiement. Nous le vérifions et commençons votre rapport."], "pay_st_pend": ["Pago por coordinar", "Payment to arrange", "Pagamento a combinar", "Paiement à organiser"], "pay_st_ver": ["Pago en verificación", "Payment being verified", "Pagamento em verificação", "Paiement en vérification"], "pay_st_ok": ["Pago confirmado", "Payment confirmed", "Pagamento confirmado", "Paiement confirmé"], "s1": ["Pedido confirmado", "Order confirmed", "Pedido confirmado", "Commande confirmée"], "advance": ["Avanzar etapa", "Advance stage", "Avançar etapa", "Étape suivante"], "mark_paid": ["Marcar pago confirmado", "Mark payment confirmed", "Marcar pagamento confirmado", "Marquer le paiement confirmé"], "ref_none": ["Aún no hay ventas con tu código. Comparte tu enlace para empezar.", "No sales with your code yet. Share your link to get started.", "Ainda não há vendas com seu código. Compartilhe seu link para começar.", "Aucune vente avec votre code pour l’instant. Partagez votre lien pour commencer."], "team_local": ["Sin base de datos en la nube conectada, aquí ves los pedidos hechos en este dispositivo. Los demás llegan a tu correo.", "With no cloud database connected, you see orders made on this device here. The rest arrive in your inbox.", "Sem banco de dados na nuvem conectado, aqui você vê os pedidos feitos neste dispositivo. Os demais chegam ao seu e-mail.", "Sans base de données cloud connectée, vous voyez ici les commandes passées sur cet appareil. Les autres arrivent dans votre boîte mail."], "del_q": ["¿Borrar tu cuenta y todos tus datos? No se puede deshacer.", "Delete your account and all your data? This can’t be undone.", "Excluir sua conta e todos os seus dados? Não dá para desfazer.", "Supprimer votre compte et toutes vos données ? Action irréversible."], "mail_subj": ["Pedido Cateo", "Cateo order", "Pedido Cateo", "Commande Cateo"], "inv_subj": ["Factura Cateo", "Cateo invoice", "Fatura Cateo", "Facture Cateo"], "also_wa": ["Coordinar por WhatsApp", "Arrange on WhatsApp", "Combinar pelo WhatsApp", "Organiser sur WhatsApp"], "client": ["Cliente", "Client", "Cliente", "Client"], "pass": ["Contraseña (mínimo 8 caracteres)", "Password (at least 8 characters)", "Senha (mínimo 8 caracteres)", "Mot de passe (8 caractères minimum)"], "pass_l": ["Contraseña", "Password", "Senha", "Mot de passe"], "google": ["Continuar con Google", "Continue with Google", "Continuar com Google", "Continuer avec Google"], "or": ["o", "or", "ou", "ou"], "forgot": ["Olvidé mi contraseña", "Forgot my password", "Esqueci minha senha", "Mot de passe oublié"], "reset_sent": ["Te enviamos un correo para crear una nueva contraseña.", "We sent you an email to set a new password.", "Enviamos um e-mail para criar uma nova senha.", "Nous vous avons envoyé un e-mail pour créer un nouveau mot de passe."], "err_pass": ["La contraseña debe tener al menos 8 caracteres.", "The password must have at least 8 characters.", "A senha deve ter pelo menos 8 caracteres.", "Le mot de passe doit comporter au moins 8 caractères."], "err_auth": ["Correo o contraseña incorrectos.", "Wrong email or password.", "E-mail ou senha incorretos.", "E-mail ou mot de passe incorrect."], "err_exists": ["Ya existe una cuenta con ese correo. Entra con tu contraseña o con Google.", "An account with that email already exists. Sign in with your password or Google.", "Já existe uma conta com esse e-mail. Entre com sua senha ou com o Google.", "Un compte existe déjà avec cet e-mail. Connectez-vous avec votre mot de passe ou Google."], "accept_first": ["Primero acepta los términos para continuar.", "Please accept the terms first.", "Primeiro aceite os termos para continuar.", "Acceptez d’abord les conditions pour continuer."], "finish_profile": ["Completa tus datos para terminar de crear tu cuenta.", "Complete your details to finish creating your account.", "Complete seus dados para terminar de criar sua conta.", "Complétez vos informations pour terminer la création de votre compte."], "vit_q": ["Fichas por verificar antes de salir en la vitrina", "Listings to verify before they go live", "Fichas a verificar antes de entrar na vitrine", "Fiches à vérifier avant publication"], "approve": ["Calificar y publicar", "Qualify and publish", "Qualificar e publicar", "Qualifier et publier"], "plan_col": ["Plan", "Plan", "Plano", "Formule"]};
+(function(){for(var k in L){var a=L[k],fr=L_FR[k];if(a.length>3){var out=[];for(var i=0;i<a.length/3;i++){out.push(a[i*3],a[i*3+1],a[i*3+2],(fr&&fr[i])||a[i*3+1])}L[k]=out}else a[3]=fr||a[1]}for(var n in L_NEW)L[n]=L_NEW[n]})();
+var LANGS=['es','en','pt','fr'];
+function t(k,i){var a=L[k];if(!a)return k;var li=LANGS.indexOf(DB.lang);if(li<0)li=0;return i===undefined?(a[li]||a[0]):(a[i*4+li]||a[i*4])}
+
+/* ===== Estado (localStorage; el CTO lo pasa a Supabase) ===== */
+var KEY='cateo-mvp-v1';
+function blank(){return {user:null,lang:(navigator.language||'es').slice(0,2),theme:'auto',concs:[],orders:[],ints:[],scr:[],unlocked:[],checkout:null,plan:null,ops:{},known:{}}}
+var DB=blank();
+try{var raw=localStorage.getItem(KEY);if(raw)DB=Object.assign(blank(),JSON.parse(raw))}catch(e){}
+if(LANGS.indexOf(DB.lang)<0)DB.lang='es';
+function save(){try{localStorage.setItem(KEY,JSON.stringify(DB))}catch(e){}if(typeof FBX!=='undefined')FBX.push()}
+function uid(){return Math.random().toString(36).slice(2,8)}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function toast(m){var el=document.getElementById('toast');el.textContent=m;el.hidden=false;clearTimeout(toast._t);toast._t=setTimeout(function(){el.hidden=true},3200)}
+function isTeam(){return !!(DB.user&&CONFIG.teamEmails.indexOf(lc(DB.user.email))>=0)}
+function role(){if(isTeam())return 'equipo';return (DB.user&&DB.user.role)||'titular'}
+function money(n){return 'US$ '+n.toLocaleString('en-US')}
+function applyTheme(){var r=document.documentElement;if(DB.theme==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',DB.theme);r.lang=DB.lang}
+
+/* ===== Íconos ===== */
+var IC={home:'<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/>',layers:'<path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/>',plus:'<path d="M12 5v14M5 12h14"/>',doc:'<path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h7M9 17h5"/>',compass:'<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',star:'<path d="M12 4l2.5 5 5.5.8-4 3.9.9 5.5L12 16.6 7.1 19.2l.9-5.5-4-3.9 5.5-.8z"/>',filter:'<path d="M4 5h16l-6 7v6l-4 2v-8z"/>',users:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5a6 6 0 0 1 3.5 5.5"/>',tool:'<path d="M14 6l4 4-8 8H6v-4z"/><path d="M12 8l4 4"/>',gear:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>',sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.4 1.4M17.6 17.6L19 19M5 19l1.4-1.4M17.6 6.4L19 5"/>',moon:'<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>',lock:'<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',check:'<path d="M5 12l5 5 9-10"/>',mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',wa:'<path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/><path d="M9 9.5c.5 2 2 3.5 4 4l1.2-1.2 2 .8v1.6c-4 .5-8-3.4-7.5-7.4H10l.8 2z"/>',out:'<path d="M14 4h5v16h-5"/><path d="M10 8l-4 4 4 4M6 12h10"/>',card:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/>',info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>',pin:'<path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>'};
+function ic(n){return '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">'+(IC[n]||'')+'</svg>'}
+
+/* ===== Logo (versión positiva y negativa del manual) ===== */
+function logo(neg,h){h=h||30;var col=neg?'#F6F2EB':'var(--ink)';return '<span style="display:inline-flex;align-items:center;gap:.4em;font:800 '+(h*0.8)+'px/1 var(--font-display);letter-spacing:-.04em;color:'+col+'"><svg viewBox="0 0 64 64" width="'+h+'" height="'+h+'" aria-hidden="true"><path d="M45.8 20.4A18 18 0 1 0 45.8 43.6" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/><circle cx="34" cy="32" r="6" fill="#F2B544"/></svg><span>cateo<span style="color:#F2B544">.</span></span></span>';
+ function oldLogo(){var tile='#101B33',arc='#E07A4E',dot='#F2B544',word='var(--ink)',neg=false;
+ return '<svg viewBox="0 0 163.2 64" height="'+h+'" width="'+(h*2.55)+'" role="img" aria-label="Cateo"><rect width="64" height="64" rx="14" fill="'+tile+'"/><path d="M45.79 20.43 A18 18 0 1 0 45.79 43.57" fill="none" stroke="'+arc+'" stroke-width="6" stroke-linecap="round"/><circle cx="34" cy="32" r="5" fill="'+dot+'"/><use href="#wmpath" transform="translate(82,47) scale(0.4167)" fill="'+word+'"/></svg>'}}
+
+/* ===== Generador determinista para mapas y vista previa ===== */
+function hashStr(s){var h=2166136261;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
+function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;var x=Math.imul(seed^seed>>>15,1|seed);x=x+Math.imul(x^x>>>7,61|x)^x;return((x^x>>>14)>>>0)/4294967296}}
+var METALS={Cu:['Cobre','Copper','Cobre'],Au:['Oro','Gold','Ouro'],Ag:['Plata','Silver','Prata'],Zn:['Zinc','Zinc','Zinco'],Pb:['Plomo','Lead','Chumbo'],Mo:['Molibdeno','Molybdenum','Molibdênio'],Fe:['Hierro','Iron','Ferro'],Li:['Litio','Lithium','Lítio'],Sn:['Estaño','Tin','Estanho']};
+(function(){var F={"Cu": "Cuivre", "Au": "Or", "Ag": "Argent", "Zn": "Zinc", "Pb": "Plomb", "Mo": "Molybdène", "Fe": "Fer", "Li": "Lithium", "Sn": "Étain"};for(var k in METALS)METALS[k][3]=F[k]||METALS[k][1]})();
+function mName(m){var a=METALS[m];return a?a[LANGS.indexOf(DB.lang)]:m}
+function facts(c){var r=rng(hashStr(c.code+'|'+c.name));var occ=['Cu','Au','Ag','Zn','Mo','Pb'];
+ return {road:Math.round((2+r()*24)*10)/10,occ:2+Math.floor(r()*6),alt:Math.round(3200+r()*1700),anp:r()<0.18,comm:Math.round((1+r()*12)*10)/10,water:Math.round((0.4+r()*6)*10)/10,
+  near:[c.metal,occ.filter(function(x){return x!==c.metal})[Math.floor(r()*5)]],alter:r()<0.62,lith:['volcánicas del Grupo Calipuy','intrusivos del Batolito de la Costa','secuencias sedimentarias del Grupo Yura','volcánicas del Grupo Barroso','pórfidos dacíticos del Mioceno'][Math.floor(r()*5)],
+  lithEn:['Calipuy Group volcanics','Coastal Batholith intrusives','Yura Group sedimentary sequences','Barroso Group volcanics','Miocene dacitic porphyries'],seed:hashStr(c.code)}}
+function claimMap(c,opts){opts=opts||{};var f=facts(c),r=rng(f.seed),W=640,H=360,s='';var on=opts.layers||{geo:1,occ:1,road:1,anp:1,water:1};
+ s+='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(c.name)+'"><rect width="'+W+'" height="'+H+'" fill="#1C2B4A"/>';
+ if(on.geo){var cols=['rgba(216,178,106,.10)','rgba(181,83,43,.13)','rgba(44,127,98,.12)'];for(var g=0;g<3;g++){var gx=r()*W,gy=r()*H;s+='<path d="M'+gx+' '+gy+' q'+(80+r()*120)+' '+(-60+r()*120)+' '+(200+r()*160)+' '+(r()*80)+' t'+(120+r()*100)+' '+(60+r()*80)+' L'+(gx+120)+' '+(gy+220)+' Z" fill="'+cols[g]+'"/>'}}
+ for(var k=0;k<11;k++){var cx=W*0.55+(r()-.5)*60,cy=H*0.5+(r()-.5)*40,rad=28+k*26;s+='<ellipse cx="'+cx.toFixed(1)+'" cy="'+cy.toFixed(1)+'" rx="'+(rad*1.35).toFixed(1)+'" ry="'+(rad*.82).toFixed(1)+'" transform="rotate('+(-18+r()*36).toFixed(1)+' '+cx.toFixed(1)+' '+cy.toFixed(1)+')" fill="none" stroke="rgba(216,178,106,'+(k%4===0?.42:.2)+')" stroke-width="'+(k%4===0?1.2:.8)+'"/>'}
+ if(on.water){s+='<path d="M-10 '+(H*.82)+' C '+W*.25+' '+H*.7+', '+W*.4+' '+H*.95+', '+W*.62+' '+H*.8+' S '+W*.9+' '+H*.6+', '+(W+10)+' '+H*.66+'" fill="none" stroke="#7FA9D6" stroke-width="2.2" opacity=".85"/>'}
+ if(on.anp&&f.anp){s+='<defs><pattern id="hatch'+f.seed+'" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="#E2735E" stroke-width="1.4"/></pattern></defs><rect x="'+(W*.04)+'" y="'+(H*.06)+'" width="'+(W*.22)+'" height="'+(H*.34)+'" fill="url(#hatch'+f.seed+')" opacity=".55" stroke="#E2735E"/>'}
+ if(on.road){s+='<path d="M'+(W*.02)+' '+(H*.25)+' L'+(W*.3)+' '+(H*.36)+' L'+(W*.48)+' '+(H*.3)+' L'+(W*.98)+' '+(H*.14)+'" fill="none" stroke="#F3EFE7" stroke-width="2" stroke-dasharray="7 5" opacity=".75"/>'}
+ var cw=W*0.2,ch=H*0.32,px=W*0.47,py=H*0.36;s+='<rect x="'+px+'" y="'+py+'" width="'+cw+'" height="'+ch+'" fill="rgba(224,122,78,.18)" stroke="#E07A4E" stroke-width="2.5"/>';
+ for(var gx2=1;gx2<4;gx2++)s+='<line x1="'+(px+cw*gx2/4)+'" y1="'+py+'" x2="'+(px+cw*gx2/4)+'" y2="'+(py+ch)+'" stroke="#E07A4E" stroke-width=".6" opacity=".5"/>';
+ s+='<circle cx="'+(px+cw*.55)+'" cy="'+(py+ch*.48)+'" r="6" fill="#D8B26A"/>';
+ if(on.occ){for(var o=0;o<f.occ;o++){var ox=W*(.1+r()*.85),oy=H*(.12+r()*.78),mm=f.near[o%2];s+='<g><circle cx="'+ox.toFixed(0)+'" cy="'+oy.toFixed(0)+'" r="4" fill="#F3EFE7" stroke="#1C2B4A"/><text x="'+(ox+7).toFixed(0)+'" y="'+(oy+4).toFixed(0)+'" font-size="12" fill="#F3EFE7" font-family="Instrument Sans,sans-serif">'+mm+'</text></g>'}}
+ s+='<g transform="translate('+(W-44)+',30)"><path d="M0 -14 L6 6 L0 2 L-6 6 Z" fill="#F3EFE7"/><text x="0" y="22" text-anchor="middle" font-size="11" fill="#F3EFE7" font-family="Instrument Sans,sans-serif">N</text></g>';
+ s+='<g transform="translate(20,'+(H-22)+')"><rect width="80" height="4" fill="#F3EFE7"/><rect width="40" height="4" fill="#1C2B4A" stroke="#F3EFE7" stroke-width=".8"/><text x="0" y="-6" font-size="11" fill="#F3EFE7" font-family="Instrument Sans,sans-serif">0</text><text x="80" y="-6" font-size="11" fill="#F3EFE7" text-anchor="end" font-family="Instrument Sans,sans-serif">2 km</text></g>';
+ return s+'</svg>'}
+function contourBg(seed,op){var r=rng(seed||7),s='<svg class="contours" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">';for(var k=0;k<16;k++){var rad=30+k*28;s+='<ellipse cx="'+(300+r()*20)+'" cy="'+(560+r()*20)+'" rx="'+(rad*1.3)+'" ry="'+(rad*.85)+'" transform="rotate(-24 300 560)" fill="none" stroke="rgba(216,178,106,'+(k%4===0?(op||.32):(op||.32)/2)+')" stroke-width="1"/>'}return s+'<circle cx="300" cy="560" r="6" fill="#D8B26A"/></svg>'}
+
+/* ===== Datos de ejemplo del directorio ===== */
+var SAMPLES=[
+ {id:'s1',name:'Quebrada Honda',code:'010234519',country:'PE',region:'Apurímac',ha:900,metal:'Cu',goal:'option',st:'ok',owner:'Titular persona natural',sum:['Pórfido de cobre-molibdeno potencial en la franja Andahuaylas-Yauri, a 6 km de vía afirmada.','Potential copper-molybdenum porphyry in the Andahuaylas-Yauri belt, 6 km from a gravel road.','Pórfiro potencial de cobre-molibdênio na faixa Andahuaylas-Yauri, a 6 km de estrada.']},
+ {id:'s2',name:'Santa Rosa de Chala',code:'530018722',country:'PE',region:'Arequipa',ha:300,metal:'Au',goal:'sell',st:'ok',owner:'Empresa familiar',sum:['Vetas de cuarzo aurífero en la franja Nazca-Ocoña con labores artesanales antiguas.','Gold-bearing quartz veins in the Nazca-Ocoña belt with old artisanal workings.','Veios de quartzo aurífero na faixa Nazca-Ocoña com labores artesanais antigas.']},
+ {id:'s3',name:'Cerro Tinta',code:'010551220',country:'PE',region:'Pasco',ha:600,metal:'Ag',goal:'partner',st:'warn',owner:'Titular persona natural',sum:['Mineralización polimetálica de plata, plomo y zinc en carbonatos; accesos todo el año.','Silver-lead-zinc polymetallic mineralization in carbonates; year-round access.','Mineralização polimetálica de prata, chumbo e zinco em carbonatos; acesso o ano todo.']},
+ {id:'s4',name:'Pampa Blanca',code:'050077318',country:'PE',region:'Ayacucho',ha:400,metal:'Au',goal:'sell',st:'info',owner:'Titular persona natural',sum:['Sistema epitermal con alteración argílica visible en ASTER, a 3 km de una trocha.','Epithermal system with argillic alteration visible in ASTER, 3 km from a track.','Sistema epitermal com alteração argílica visível no ASTER, a 3 km de uma trilha.']},
+ {id:'s5',name:'Los Andenes',code:'010660121',country:'PE',region:'Moquegua',ha:1000,metal:'Cu',goal:'partner',st:'ok',owner:'Sociedad minera',sum:['Bloque de 1,000 ha en la franja de pórfidos del sur, cerca de tres proyectos en exploración.','1,000 ha block in the southern porphyry belt, near three exploration projects.','Bloco de 1.000 ha na faixa de pórfiros do sul, perto de três projetos em exploração.']},
+ {id:'s6',name:'Salar Alto',code:'CL-0322-24',country:'CL',region:'Atacama',ha:500,metal:'Li',goal:'option',st:'warn',owner:'Titular persona natural',sum:['Pertenencias en salar altoandino con salmueras reportadas; requiere revisión del régimen del litio.','Claims on a high Andean salt flat with reported brines; lithium regime review needed.','Concessões em salar andino com salmouras relatadas; requer revisão do regime do lítio.']}
+];
+var COUNTRIES={PE:['Perú','Peru','Peru'],CL:['Chile','Chile','Chile'],EC:['Ecuador','Ecuador','Equador'],CO:['Colombia','Colombia','Colômbia'],MX:['México','Mexico','México'],BR:['Brasil','Brazil','Brasil'],AR:['Argentina','Argentina','Argentina'],BO:['Bolivia','Bolivia','Bolívia'],CA:['Canadá','Canada','Canadá'],AU:['Australia','Australia','Austrália'],US:['Estados Unidos','United States','Estados Unidos'],GB:['Reino Unido','United Kingdom','Reino Unido'],OT:['Otro','Other','Outro']};
+(function(){var F={"PE": "Pérou", "CL": "Chili", "EC": "Équateur", "CO": "Colombie", "MX": "Mexique", "BR": "Brésil", "AR": "Argentine", "BO": "Bolivie", "CA": "Canada", "AU": "Australie", "US": "États-Unis", "GB": "Royaume-Uni", "OT": "Autre"};for(var k in COUNTRIES)COUNTRIES[k][3]=F[k]||COUNTRIES[k][1];var S={"s1": "Porphyre potentiel à cuivre-molybdène dans la ceinture d’Andahuaylas-Yauri, à 6 km d’une piste carrossable.", "s2": "Filons de quartz aurifère dans la ceinture de Nazca-Ocoña avec d’anciens travaux artisanaux.", "s3": "Minéralisation polymétallique d’argent, plomb et zinc dans des carbonates ; accès toute l’année.", "s4": "Système épithermal avec altération argileuse visible sur ASTER, à 3 km d’une piste.", "s5": "Bloc de 1 000 ha dans la ceinture de porphyres du sud, près de trois projets en exploration.", "s6": "Concessions sur un salar de haute altitude avec saumures signalées ; examen du régime du lithium nécessaire."};SAMPLES.forEach(function(x){x.sum[3]=S[x.id]||x.sum[1]})})();
+function cName(k){var a=COUNTRIES[k];return a?a[LANGS.indexOf(DB.lang)]:k}
+function goalName(g){return t({sell:'g_sell',option:'g_option',partner:'g_partner',value:'g_value'}[g]||'g_value')}
+function stBadge(st){var m={ok:['b-ok','st_ok'],warn:['b-warn','st_warn'],info:['b-info','st_info'],danger:['b-danger','st_danger']}[st]||['b-plain','st_warn'];return '<span class="badge '+m[0]+'">'+t(m[1])+'</span>'}
+function allOpps(){if(FBX.on&&!VIT.loaded)VIT.load();var others=VIT.list.filter(function(v){return !findConc(v.id)});var mine=DB.concs.filter(function(c){return c.published}).map(function(c){return Object.assign({},c,{st:c.st||'warn',mine:true,sum:[c.notes||'',c.notes||'',c.notes||'',c.notes||'']})});return mine.concat(others,SAMPLES)}
+function findConc(id){for(var i=0;i<DB.concs.length;i++)if(DB.concs[i].id===id)return DB.concs[i];return null}
+function findOpp(id){var a=allOpps();for(var i=0;i<a.length;i++)if(a[i].id===id)return a[i];return null}
+
+/* ===== Router ===== */
+function go(h){if(location.hash==='#'+h)render();else location.hash=h}
+window.addEventListener('hashchange',render);
+function route(){return (location.hash||'').replace(/^#/,'')}
+
+/* ===== Pantallas de acceso ===== */
+function langSeg(){return '<div class="seg" role="group" aria-label="'+t('lang')+'">'+LANGS.map(function(l){return '<button data-lang="'+l+'" aria-pressed="'+(DB.lang===l)+'">'+l.toUpperCase()+'</button>'}).join('')+'</div>'}
+function themeBtn(){var dark=document.documentElement.getAttribute('data-theme')==='dark'||(DB.theme==='auto'&&matchMedia('(prefers-color-scheme: dark)').matches);return '<button class="btn btn-g btn-sm" data-theme-toggle aria-label="'+t('theme')+'">'+ic(dark?'sun':'moon')+'</button>'}
+function legalUrl(k){return (CONFIG.landingUrl||'')+'#'+k}
+function legalLinks(){return [['terminos','legal'],['privacidad','privacy'],['uso-ia','aiuse'],['reembolsos','refunds']].map(function(x){return '<a href="'+legalUrl(x[0])+'" target="_blank" rel="noopener">'+t(x[1])+'</a>'}).join(' · ')}
+function authShell(inner){return '<div class="auth"><aside class="auth-side">'+contourBg(11)+'<div>'+logo(true,34)+'</div><h1>'+t('tagline')+'</h1><p style="color:var(--night-muted)">'+t('side_pitch')+'</p><div class="stack hide-m small">'+['side_b1','side_b2','side_b3'].map(function(k){return '<div class="row" style="flex-wrap:nowrap;align-items:flex-start">'+ic('check')+'<span>'+t(k)+'</span></div>'}).join('')+'</div><p class="legal-mini" style="margin-top:auto">© 2026 '+CONFIG.company+' · '+legalLinks()+'</p></aside><main class="auth-main"><div class="row">'+(CONFIG.landingUrl?'<a class="btn btn-g btn-sm" href="'+esc(CONFIG.landingUrl)+'">'+t('back_site')+'</a>':'')+'<span class="spacer"></span>'+langSeg()+themeBtn()+'</div>'+inner+'</main></div>'}
+var AUTH={mode:'create',role:'titular',sent:null};
+var GICON='<svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.5l6.7-6.7C35.6 2.4 30.2 0 24 0 14.6 0 6.6 5.4 2.6 13.3l7.8 6C12.3 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.4 28.7c-.5-1.4-.8-3-.8-4.7s.3-3.2.8-4.7l-7.8-6C1 16.6 0 20.2 0 24s1 7.4 2.6 10.7l7.8-6z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.8 2.3-8.4 2.3-6.3 0-11.7-4.1-13.6-9.8l-7.8 6C6.6 42.6 14.6 48 24 48z"/></svg>';
+function viewAuth(){
+ var r=AUTH.role;
+ if(AUTH.busy)return authShell('<div class="stack" style="max-width:520px"><p class="muted">'+t('loading')+'</p></div>');
+ var roles=[['titular','r_titular','role_t_d'],['inversion','r_inversion','role_i_d'],['aliado','r_aliado','role_a_d']].map(function(x){return '<button class="role" data-role="'+x[0]+'" aria-pressed="'+(r===x[0])+'"><b>'+t(x[1])+'</b><span class="small muted">'+t(x[2])+'</span></button>'}).join('');
+ var planNote=DB.plan&&PRICES[DB.plan]?'<div class="callout info">'+ic('info')+'<span>'+t('p_'+DB.plan)+' · '+money(PRICES[DB.plan].now)+'</span></div>':'';
+ var opts=Object.keys(COUNTRIES).map(function(k){return '<option value="'+k+'">'+cName(k)+'</option>'}).join('');
+ var need=FBX.on&&FBX.user&&AUTH.needProfile;
+ var gbtn=FBX.on&&!need?'<div class="row" style="justify-content:center"><span class="small muted">'+t('or')+'</span></div><button class="btn btn-g btn-lg" data-act="google" style="gap:10px">'+GICON+t('google')+'</button>':'';
+ var create='<div class="stack"><h2>'+t('who')+'</h2>'+(need?'<div class="callout info">'+ic('info')+'<span>'+t('finish_profile')+'</span></div>':'')+'<div class="roles">'+roles+'</div>'+planNote+
+  '<div class="grid2"><div class="field"><label for="a-name">'+t('name')+'</label><input class="input" id="a-name" autocomplete="name" value="'+esc(AUTH.prefName||'')+'"></div><div class="field"><label for="a-co">'+t('company')+'</label><input class="input" id="a-co" autocomplete="organization"></div><div class="field"><label for="a-country">'+t('country')+'</label><select class="input" id="a-country">'+opts+'</select></div><div class="field"><label for="a-phone">'+t('phone')+'</label><input class="input" id="a-phone" inputmode="tel" autocomplete="tel" placeholder="+51 9…"></div></div>'+
+  '<div class="grid2"><div class="field"><label for="a-mail">'+t('email')+'</label><input class="input" id="a-mail" type="email" autocomplete="email" value="'+esc(AUTH.prefill||'')+'"'+(need?' readonly':'')+'></div>'+(FBX.on&&!need?'<div class="field"><label for="a-pass">'+t('pass')+'</label><input class="input" id="a-pass" type="password" autocomplete="new-password" minlength="8"></div>':'')+'</div>'+
+  '<label class="check"><input type="checkbox" id="a-ok"><span>'+t('accept')+' <span class="small">('+legalLinks()+')</span></span></label>'+
+  '<label class="check"><input type="checkbox" id="a-opt"><span>'+t('optin')+'</span></label>'+
+  '<p id="a-err" class="small" style="color:var(--danger)" role="alert">'+esc(AUTH.err||'')+'</p><button class="btn btn-p btn-lg" data-act="signup">'+t('create_go')+'</button>'+gbtn+(FBX.on?'':'<p class="help">'+t('local_note')+'</p>')+'</div>';
+ var login='<div class="stack" style="max-width:520px"><h2>'+t('login')+'</h2><div class="field"><label for="l-mail">'+t('email')+'</label><input class="input" id="l-mail" type="email" autocomplete="email" value="'+esc(AUTH.prefill||'')+'"></div>'+
+  (FBX.on?'<div class="field"><label for="l-pass">'+t('pass_l')+'</label><input class="input" id="l-pass" type="password" autocomplete="current-password"></div>':'')+
+  '<p id="a-err" class="small" style="color:var(--danger)" role="alert">'+esc(AUTH.err||'')+'</p><button class="btn btn-p btn-lg" data-act="login">'+t('login_go')+'</button>'+
+  (FBX.on?'<button class="btn btn-g btn-sm" data-act="forgot" style="align-self:flex-start">'+t('forgot')+'</button>'+gbtn:'<p class="help">'+t('local_note')+'</p>')+'</div>';
+ AUTH.err='';
+ return authShell((need?'':'<div class="seg" role="tablist"><button data-mode="create" aria-pressed="'+(AUTH.mode==='create')+'">'+t('create')+'</button><button data-mode="login" aria-pressed="'+(AUTH.mode==='login')+'">'+t('login')+'</button></div>')+(AUTH.mode==='create'||need?create:login))}
+function viewWelcome(){var r=DB.user.role,k=r==='inversion'?['onb_i1','onb_i2','onb_i3']:r==='aliado'?['onb_a1','onb_a2','onb_a3']:['onb_t1','onb_t2','onb_t3'];
+ return authShell('<div class="stack" style="max-width:560px"><p class="muted">'+t('welcome')+', '+esc(DB.user.name.split(' ')[0])+'</p><h2>'+t('onb_t')+'</h2><ol class="stack" style="padding-left:20px;margin:0">'+k.map(function(x){return '<li>'+t(x)+'</li>'}).join('')+'</ol><div class="callout warn">'+ic('info')+'<span>'+t('pdac')+'</span></div><button class="btn btn-p btn-lg" data-act="enter">'+t('start')+'</button></div>')}
+
+/* ===== Shell ===== */
+function navItems(){var r=role();
+ if(r==='inversion')return [['directorio','compass','n_dir'],['intereses','star','n_int'],['screening','filter','n_scr'],['ajustes','gear','n_set']];
+ if(r==='aliado')return [['aliado','users','n_partner'],['nueva','plus','n_new'],['pedidos','doc','n_orders'],['ajustes','gear','n_set']];
+ if(r==='equipo')return [['operaciones','tool','n_ops'],['directorio','compass','n_dir'],['ajustes','gear','n_set']];
+ return [['inicio','home','n_home'],['concesiones','layers','n_conc'],['nueva','plus','n_new'],['pedidos','doc','n_orders'],['ajustes','gear','n_set']]}
+function shell(cur,inner){var items=navItems();
+
+ return '<div class="shell"><nav class="side" aria-label="Cateo"><div style="padding:6px 8px 16px">'+logo(true,30)+'</div>'+items.map(function(x){return '<a class="nav" href="#'+x[0]+'" '+(cur===x[0]?'aria-current="page"':'')+'>'+ic(x[1])+t(x[2])+'</a>'}).join('')+'<div class="who"><div>'+esc(DB.user.name)+'</div><div>'+esc(DB.user.email)+'</div><p class="legal-mini" style="margin-top:8px">© 2026 '+CONFIG.company+'<br>'+legalLinks()+'</p></div></nav>'+
+ '<div class="main"><header class="top no-print"><span class="mlogo">'+logo(false,26)+'</span><span class="spacer"></span>'+langSeg()+themeBtn()+'<button class="btn btn-g btn-sm" data-act="logout" aria-label="'+t('logout')+'">'+ic('out')+'</button></header><div class="content">'+inner+'</div></div></div>'+
+ '<nav class="tabbar no-print" aria-label="Cateo">'+items.map(function(x){return '<a href="#'+x[0]+'" '+(cur===x[0]?'aria-current="page"':'')+'>'+ic(x[1])+'<span>'+t(x[2])+'</span></a>'}).join('')+'</nav>'}
+
+/* ===== Titular ===== */
+function viewHome(){var pub=DB.concs.filter(function(c){return c.published}).length,ints=DB.concs.reduce(function(a,c){return a+(c.interest||0)},0);
+ var list=DB.concs.length?'<div class="list">'+DB.concs.map(concRow).join('')+'</div>':'<div class="empty"><p>'+t('empty_conc')+'</p><a class="btn btn-p" href="#nueva">'+ic('plus')+t('add_conc')+'</a></div>';
+ return '<div class="stack" style="gap:22px"><div><p class="muted">'+t('hello')+', '+esc(DB.user.name.split(' ')[0])+'</p><h1>'+t('home_sub')+'</h1></div><div class="kpis"><div class="kpi"><div class="n">'+DB.concs.length+'</div><div class="l">'+t('k_conc')+'</div></div><div class="kpi"><div class="n">'+DB.orders.filter(function(o){return o.plan!=='screening'}).length+'</div><div class="l">'+t('k_orders')+'</div></div><div class="kpi"><div class="n">'+pub+'</div><div class="l">'+t('k_live')+'</div></div><div class="kpi"><div class="n">'+ints+'</div><div class="l">'+t('k_int')+'</div></div></div><div class="callout warn">'+ic('info')+'<span>'+t('pdac')+'</span></div><div class="row"><h2>'+t('n_conc')+'</h2><span class="spacer"></span><a class="btn btn-d btn-sm" href="#nueva">'+ic('plus')+t('add_conc')+'</a></div>'+list+'</div>'}
+function concRow(c){var o=orderFor(c.id);var b=c.published?stBadge(c.st||'warn'):o?'<span class="badge b-info">'+t(['s1','s2','s3','s4'][o.stage])+'</span>':'<span class="badge b-plain">'+t('preview')+'</span>';
+ return '<a class="li" href="#ficha-'+c.id+'"><div style="flex:1;min-width:0"><div class="t">'+esc(c.name)+'</div><div class="small muted code">'+esc(c.code)+' · '+esc(c.region)+' · '+c.ha+' ha · '+mName(c.metal)+'</div></div>'+b+'</a>'}
+function viewConcs(){return '<div class="stack"><div class="row"><h2>'+t('n_conc')+'</h2><span class="spacer"></span><a class="btn btn-d btn-sm" href="#nueva">'+ic('plus')+t('add_conc')+'</a></div>'+(DB.concs.length?'<div class="list">'+DB.concs.map(concRow).join('')+'</div>':'<div class="empty"><p>'+t('empty_conc')+'</p><a class="btn btn-p" href="#nueva">'+t('add_conc')+'</a></div>')+'</div>'}
+function viewNew(){var metals=Object.keys(METALS).map(function(m){return '<option value="'+m+'">'+mName(m)+'</option>'}).join('');var cs=Object.keys(COUNTRIES).slice(0,8).map(function(k){return '<option value="'+k+'">'+cName(k)+'</option>'}).join('');
+ return '<div class="stack" style="max-width:760px"><h2>'+t('n_new')+'</h2><div class="panel stack">'+
+ '<div class="grid2"><div class="field"><label for="c-code">'+t('f_code')+'</label><input class="input code" id="c-code" inputmode="numeric" placeholder="010234519"><span class="help">'+t('f_code_h')+'</span></div><div class="field"><label for="c-name">'+t('f_cname')+'</label><input class="input" id="c-name"></div>'+
+ '<div class="field"><label for="c-country">'+t('country')+'</label><select class="input" id="c-country">'+cs+'</select></div><div class="field"><label for="c-region">'+t('f_region')+'</label><input class="input" id="c-region" placeholder="Arequipa"></div>'+
+ '<div class="field"><label for="c-ha">'+t('f_ha')+'</label><input class="input" id="c-ha" type="number" min="1" step="1" placeholder="300"></div><div class="field"><label for="c-metal">'+t('f_metal')+'</label><select class="input" id="c-metal">'+metals+'</select></div>'+
+ '<div class="field"><label for="c-status">'+t('f_status')+'</label><select class="input" id="c-status"><option value="tit">'+t('st_tit')+'</option><option value="tram">'+t('st_tram')+'</option></select></div><div class="field"><label for="c-goal">'+t('f_goal')+'</label><select class="input" id="c-goal"><option value="sell">'+t('g_sell')+'</option><option value="option">'+t('g_option')+'</option><option value="partner">'+t('g_partner')+'</option><option value="value">'+t('g_value')+'</option></select></div>'+
+ '<div class="field"><label for="c-vig">'+t('f_vig')+'</label><select class="input" id="c-vig"><option value="yes">'+t('yes')+'</option><option value="no">'+t('no')+'</option><option value="dk">'+t('dunno')+'</option></select></div><div class="field"><label for="c-price">'+t('f_price')+'</label><input class="input" id="c-price" placeholder="US$"></div></div>'+
+ '<div class="field"><label for="c-notes">'+t('f_notes')+'</label><textarea class="input" id="c-notes"></textarea><span class="help">'+t('f_notes_h')+'</span></div>'+
+ '<p id="c-err" class="small" style="color:var(--danger)" role="alert"></p><div class="row"><button class="btn btn-p btn-lg" data-act="add-conc">'+t('see_preview')+'</button></div></div></div>'}
+var MAPL={geo:1,occ:1,road:1,anp:1,water:1};
+function mapBlock(c){var keys=[['geo','l_geo'],['occ','l_occ'],['road','l_road'],['anp','l_anp'],['water','l_water']];return '<div class="mapbox">'+claimMap(c,{layers:MAPL})+'<div class="layers" role="group" aria-label="Capas">'+keys.map(function(k){return '<button data-layer="'+k[0]+'" aria-pressed="'+(!!MAPL[k[0]])+'">'+t(k[1])+'</button>'}).join('')+'</div></div>'}
+function orderFor(cid){for(var i=DB.orders.length-1;i>=0;i--)if(DB.orders[i].cid===cid)return DB.orders[i];return null}
+function viewFicha(id){var c=findConc(id);if(!c)return notFound();var f=facts(c),o=orderFor(c.id);
+ var head='<div class="row"><a class="btn btn-g btn-sm" href="#concesiones">'+t('back')+'</a></div><div class="row" style="align-items:flex-end"><div style="flex:1;min-width:240px"><p class="small muted code">'+t('code_l')+' '+esc(c.code)+' · '+cName(c.country)+'</p><h1>'+esc(c.name)+'</h1><p class="muted">'+esc(c.region)+' · '+c.ha+' ha · '+mName(c.metal)+' · '+goalName(c.goal)+'</p></div>'+(c.published?stBadge(c.st||'warn'):'')+'</div>';
+ var fx='<div class="facts"><div><b>'+f.road+'</b><span>'+t('fx_road')+'</span></div><div><b>'+f.occ+'</b><span>'+t('fx_occ')+'</span></div><div><b>'+f.alt.toLocaleString('en-US')+'</b><span>'+t('fx_alt')+'</span></div></div>';
+ var pre='<div class="grid2" style="align-items:start"><div class="stack">'+mapBlock(c)+'</div><div class="stack"><div class="row"><h3>'+t('preview')+'</h3></div>'+fx+'<p class="help">'+t('preview_note')+'</p><div class="stack" style="gap:8px">'+['lk1','lk2','lk3','lk4'].map(function(k){return '<div class="locked row" style="flex-wrap:nowrap">'+ic('lock')+'<span>'+t(k)+'</span><span class="spacer"></span><span class="xs">'+t('in_report')+'</span></div>'}).join('')+'</div></div></div>';
+ var action;
+ if(o){action='<div class="panel stack"><div class="row"><h3>'+t('p_'+o.plan)+'</h3><span class="spacer"></span><span class="small muted">'+t('eta')+': '+new Date(o.eta).toLocaleDateString(DB.lang)+'</span></div>'+payBadge(o)+tracker(o.stage)+(o.stage>=3?'<div class="row"><a class="btn btn-p" href="#informe-'+c.id+'">'+ic('doc')+t('view_report')+'</a></div>':'')+'</div>'}
+ else action=planPicker(c.id,['informe','vitrina','portafolio']);
+ return '<div class="stack" style="gap:22px">'+head+pre+action+'</div>'}
+function payBadge(o){var p=o.pay||'pagado';var m={pendiente:['b-warn','pay_st_pend'],verificando:['b-info','pay_st_ver'],pagado:['b-ok','pay_st_ok']}[p]||['b-plain','pay_st_pend'];return '<div class="row"><span class="badge '+m[0]+'">'+t(m[1])+'</span></div>'}
+function tracker(st){return '<div class="track">'+['s1','s2','s3','s4'].map(function(k,i){return '<div class="'+(i<st?'done':i===st?'now':'')+'">'+t(k)+'</div>'}).join('')+'</div>'}
+function planPicker(cid,plans){var sel=DB.plan&&plans.indexOf(DB.plan)>=0?DB.plan:plans[1]||plans[0];
+ return '<div class="stack"><div class="row"><h2>'+t('choose_plan')+'</h2><span class="spacer"></span><span class="badge b-warn">'+t('founder')+'</span></div><div class="plans">'+plans.map(function(p){return '<button class="plan" data-plan="'+p+'" aria-pressed="'+(p===sel)+'"><b>'+t('p_'+p)+'</b><div class="price">'+money(PRICES[p].now)+' <s>'+PRICES[p].list+'</s></div><ul>'+[0,1,2,3].map(function(i){return '<li>'+t('inc_'+p,i)+'</li>'}).join('')+'</ul></button>'}).join('')+'</div><div class="row"><button class="btn btn-p btn-lg" data-act="checkout" data-cid="'+(cid||'')+'">'+ic('card')+t('continue_pay')+'</button></div></div>'}
+function viewPago(){var co=DB.checkout;if(!co)return notFound();var p=co.plan,c=co.cid?findConc(co.cid):null;var link=CONFIG.pay[p];
+ return '<div class="stack" style="max-width:720px;gap:20px"><h2>'+t('pay_t')+'</h2><div class="panel stack"><h3>'+t('order_sum')+'</h3><table class="t"><tr><td>'+t('p_'+p)+(c?' · '+esc(c.name):'')+'</td><td style="text-align:right"><b>'+money(PRICES[p].now)+'</b></td></tr></table><ul class="small" style="margin:0;padding-left:18px">'+[0,1,2,3].map(function(i){return '<li>'+t('inc_'+p,i)+'</li>'}).join('')+'</ul><p class="help">'+t('pay_note')+'</p><label class="check"><input type="checkbox" id="p-ok"><span>'+t('pay_terms')+' <span class="small">('+legalLinks()+')</span></span></label></div>'+
+ '<div class="stack">'+(link?'<a class="btn btn-p btn-lg" href="'+esc(payUrl(link))+'" target="_blank" rel="noopener" data-act="paylink">'+ic('card')+t('pay_card')+'</a><p class="help">'+t('pay_open_note')+'</p><button class="btn btn-d" data-act="paid">'+t('pay_done')+'</button>':'<button class="btn btn-p btn-lg" data-act="request-pay">'+ic('mail')+t('pay_req')+'</button><p class="help">'+t('pay_req_note')+'</p>'+(CONFIG.whatsapp?'<a class="btn btn-g" href="'+waOrderUrl()+'" target="_blank" rel="noopener">'+ic('wa')+t('also_wa')+'</a>':''))+
+ (link?'<a class="btn btn-g" href="mailto:'+CONFIG.invoiceEmail+'?subject='+encodeURIComponent(t('inv_subj')+': '+t('p_'+p))+'&body='+encodeURIComponent((c?c.name+' ('+c.code+')\n':'')+DB.user.name+'\n'+DB.user.email)+'">'+ic('mail')+t('pay_inv')+'</a>':'')+'</div></div>'}
+function payUrl(link){try{var u=new URL(link);if(DB.user&&DB.user.email)u.searchParams.set('customer_email',DB.user.email);if(DB.user&&DB.user.name)u.searchParams.set('customer_name',DB.user.name);return u.toString()}catch(e){return link}}
+function orderText(){var co=DB.checkout||{},c=co.cid?findConc(co.cid):null,p=co.plan||'informe';return [t('mail_subj')+': '+t('p_'+p)+' · '+money(PRICES[p].now),c?(c.name+' · '+c.code+' · '+c.region+' · '+c.ha+' ha'):'',DB.user?(DB.user.name+' <'+DB.user.email+'>'+(DB.user.phone?' · '+DB.user.phone:'')):''].filter(Boolean).join('\n')}
+function waOrderUrl(){return 'https://wa.me/'+CONFIG.whatsapp+'?text='+encodeURIComponent(orderText())}
+function viewOrders(){if(!DB.orders.length)return '<div class="stack"><h2>'+t('n_orders')+'</h2><div class="empty"><p>'+t('no_orders')+'</p><a class="btn btn-p" href="#nueva">'+t('add_conc')+'</a></div></div>';
+ return '<div class="stack"><h2>'+t('n_orders')+'</h2>'+DB.orders.slice().reverse().map(function(o){var c=o.cid?findConc(o.cid):null;return '<div class="panel stack"><div class="row"><div><b>'+t('p_'+o.plan)+'</b><div class="small muted">'+(c?esc(c.name)+' · ':'')+money(o.amount)+' · '+new Date(o.at).toLocaleDateString(DB.lang)+'</div></div><span class="spacer"></span><span class="small muted">'+t('eta')+': '+new Date(o.eta).toLocaleDateString(DB.lang)+'</span></div>'+payBadge(o)+tracker(o.stage)+(o.stage>=3&&c?'<div class="row"><a class="btn btn-p btn-sm" href="#informe-'+c.id+'">'+t('view_report')+'</a></div>':'')+'</div>'}).join('')+'</div>'}
+
+/* ===== Informe bilingüe (plantilla que el equipo completa) ===== */
+var RLANG=null;
+function rtext(c,lang){var f=facts(c),li=LANGS.indexOf(lang),m=METALS[c.metal]?METALS[c.metal][li]:c.metal,occ=f.near.map(function(x){return METALS[x]?METALS[x][li]:x});
+ var LIX=['volcánicas del Grupo Calipuy','intrusivos del Batolito de la Costa','secuencias sedimentarias del Grupo Yura','volcánicas del Grupo Barroso','pórfidos dacíticos del Mioceno'].indexOf(f.lith);var lith=lang==='es'?f.lith:lang==='pt'?["vulcânicas do Grupo Calipuy", "intrusivas do Batólito da Costa", "sequências sedimentares do Grupo Yura", "vulcânicas do Grupo Barroso", "pórfiros dacíticos do Mioceno"][LIX]:lang==='fr'?["volcaniques du groupe Calipuy", "intrusifs du batholite côtier", "séquences sédimentaires du groupe Yura", "volcaniques du groupe Barroso", "porphyres dacitiques du Miocène"][LIX]:f.lithEn[LIX];var mfr=(m==='Or'||m==='Argent'?'l’':'le ')+m.toLowerCase();
+ var T={
+ es:{sum:'La concesión '+c.name+' ('+c.ha+' ha, '+c.region+') se ubica en un entorno geológico favorable para '+m.toLowerCase()+'. Está a '+f.road+' km de una vía afirmada y registra '+f.occ+' ocurrencias minerales en un radio de 10 km. '+(f.alter?'Las imágenes ASTER muestran señales de alteración hidrotermal dentro y alrededor del área.':'No se observan señales claras de alteración en ASTER; se recomienda verificación de campo.'),
+  loc:'Altitud promedio de '+f.alt.toLocaleString('es')+' m s. n. m. Acceso por vía afirmada a '+f.road+' km y luego trocha. Fuente de agua superficial más cercana a '+f.water+' km.',
+  geo:'Según el mapa geológico 1:100 000 de Ingemmet, el área está dominada por '+lith+'. Este contexto es coherente con sistemas de '+(c.metal==='Au'?'tipo epitermal':'tipo pórfido y skarn')+' reportados en la franja metalogenética.',
+  occ:'Ocurrencias cercanas de '+occ.join(' y ').toLowerCase()+'. La más próxima está a '+(1+f.road/4).toFixed(1)+' km del límite de la concesión.',
+  sat:(f.alter?'Composición ASTER con índices de arcillas y óxidos de hierro con anomalías en el sector central. Sentinel-2 confirma zonas sin vegetación con tonos de óxidos.':'Sin anomalías claras en ASTER. Sentinel-2 muestra cobertura de pastos altoandinos que puede ocultar la alteración.'),
+  env:(f.anp?'Un sector cercano se superpone con un área natural protegida o su zona de amortiguamiento: requiere revisión antes de cualquier trabajo. ':'Sin superposición con áreas naturales protegidas. ')+'Centro poblado más cercano a '+f.comm+' km: el relacionamiento comunitario debe empezar antes de explorar.',
+  leg:'Estado declarado: '+(c.status==='tram'?'en trámite':'titulada')+'. Derecho de vigencia: '+({yes:'al día',no:'con deuda',dk:'por confirmar'}[c.vig]||'por confirmar')+'. El equipo verifica titularidad y vigencia en GEOCATMIN antes de publicar.',
+  nx:'1) Visita de reconocimiento y muestreo de superficie. 2) Mapeo geológico 1:5 000 del sector central. 3) Presentar esta ficha a inversionistas interesados en '+m.toLowerCase()+'.'},
+ en:{sum:'The '+c.name+' concession ('+c.ha+' ha, '+c.region+') sits in a geological setting favourable for '+m.toLowerCase()+'. It lies '+f.road+' km from a gravel road and records '+f.occ+' mineral occurrences within 10 km. '+(f.alter?'ASTER imagery shows hydrothermal alteration signals in and around the area.':'No clear ASTER alteration signals; field verification is recommended.'),
+  loc:'Average elevation '+f.alt.toLocaleString('en-US')+' m a.s.l. Access by gravel road to '+f.road+' km, then track. Nearest surface water '+f.water+' km away.',
+  geo:'Ingemmet’s 1:100,000 geological map shows the area dominated by '+lith+'. This setting is consistent with '+(c.metal==='Au'?'epithermal':'porphyry and skarn')+' systems reported along the metallogenic belt.',
+  occ:'Nearby '+occ.join(' and ').toLowerCase()+' occurrences. The closest is '+(1+f.road/4).toFixed(1)+' km from the concession boundary.',
+  sat:(f.alter?'ASTER composite with clay and iron-oxide indices shows anomalies in the central sector. Sentinel-2 confirms bare zones with oxide tones.':'No clear ASTER anomalies. Sentinel-2 shows high Andean grassland that may mask alteration.'),
+  env:(f.anp?'A nearby sector overlaps a protected area or its buffer zone: review before any work. ':'No overlap with protected areas. ')+'Nearest settlement '+f.comm+' km away: community engagement should start before exploration.',
+  leg:'Declared status: '+(c.status==='tram'?'in process':'titled')+'. Annual fees: '+({yes:'up to date',no:'outstanding',dk:'to be confirmed'}[c.vig]||'to be confirmed')+'. The team checks title and status in GEOCATMIN before listing.',
+  nx:'1) Reconnaissance visit and surface sampling. 2) 1:5,000 geological mapping of the central sector. 3) Present this sheet to investors interested in '+m.toLowerCase()+'.'},
+ pt:{sum:'A concessão '+c.name+' ('+c.ha+' ha, '+c.region+') está em um contexto geológico favorável para '+m.toLowerCase()+'. Fica a '+f.road+' km de uma estrada e registra '+f.occ+' ocorrências minerais em um raio de 10 km. '+(f.alter?'As imagens ASTER mostram sinais de alteração hidrotermal dentro e ao redor da área.':'Sem sinais claros de alteração no ASTER; recomenda-se verificação de campo.'),
+  loc:'Altitude média de '+f.alt.toLocaleString('pt-BR')+' m. Acesso por estrada até '+f.road+' km e depois trilha. Água superficial mais próxima a '+f.water+' km.',
+  geo:'O mapa geológico 1:100.000 do Ingemmet mostra a área dominada por '+lith+'. Esse contexto é coerente com sistemas '+(c.metal==='Au'?'epitermais':'pórfiro e escarnito')+' relatados na faixa metalogenética.',
+  occ:'Ocorrências próximas de '+occ.join(' e ').toLowerCase()+'. A mais próxima está a '+(1+f.road/4).toFixed(1)+' km do limite da concessão.',
+  sat:(f.alter?'Composição ASTER com índices de argilas e óxidos de ferro com anomalias no setor central. O Sentinel-2 confirma áreas expostas com tons de óxidos.':'Sem anomalias claras no ASTER. O Sentinel-2 mostra campos andinos que podem ocultar a alteração.'),
+  env:(f.anp?'Um setor próximo se sobrepõe a uma área protegida ou sua zona de amortecimento: revisar antes de qualquer trabalho. ':'Sem sobreposição com áreas protegidas. ')+'Povoado mais próximo a '+f.comm+' km: o relacionamento comunitário deve começar antes da exploração.',
+  leg:'Situação declarada: '+(c.status==='tram'?'em trâmite':'titulada')+'. Taxa de vigência: '+({yes:'em dia',no:'em atraso',dk:'a confirmar'}[c.vig]||'a confirmar')+'. A equipe verifica titularidade e vigência no GEOCATMIN antes de publicar.',
+  nx:'1) Visita de reconhecimento e amostragem de superfície. 2) Mapeamento geológico 1:5.000 do setor central. 3) Apresentar esta ficha a investidores interessados em '+m.toLowerCase()+'.'},
+ fr:{sum:'La concession '+c.name+' ('+c.ha+' ha, '+c.region+') se situe dans un contexte géologique favorable pour '+mfr+'. Elle se trouve à '+f.road+' km d’une piste carrossable et compte '+f.occ+' indices minéralisés dans un rayon de 10 km. '+(f.alter?'Les images ASTER montrent des signaux d’altération hydrothermale dans la zone et autour.':'Aucun signal d’altération net sur ASTER ; une vérification sur le terrain est recommandée.'),
+  loc:'Altitude moyenne de '+f.alt.toLocaleString('fr-FR')+' m. Accès par piste carrossable sur '+f.road+' km, puis par sentier. Point d’eau de surface le plus proche à '+f.water+' km.',
+  geo:'D’après la carte géologique au 1:100 000 de l’Ingemmet, la zone est dominée par des '+lith+'. Ce contexte est cohérent avec les systèmes '+(c.metal==='Au'?'épithermaux':'de type porphyre et skarn')+' signalés dans la ceinture métallogénique.',
+  occ:'Indices voisins de '+occ.join(' et ').toLowerCase()+'. Le plus proche se trouve à '+(1+f.road/4).toFixed(1).replace('.',',')+' km de la limite de la concession.',
+  sat:(f.alter?'La composition ASTER avec indices d’argiles et d’oxydes de fer montre des anomalies dans le secteur central. Sentinel-2 confirme des zones sans végétation aux tons d’oxydes.':'Pas d’anomalie nette sur ASTER. Sentinel-2 montre des prairies d’altitude qui peuvent masquer l’altération.'),
+  env:(f.anp?'Un secteur voisin chevauche une aire protégée ou sa zone tampon : à examiner avant tout travail. ':'Aucun chevauchement avec des aires protégées. ')+'Village le plus proche à '+f.comm+' km : le dialogue avec la communauté doit commencer avant l’exploration.',
+  leg:'Statut déclaré : '+(c.status==='tram'?'en cours d’instruction':'titrée')+'. Redevance annuelle : '+({yes:'à jour',no:'impayée',dk:'à confirmer'}[c.vig]||'à confirmer')+'. L’équipe vérifie le titre et le statut dans GEOCATMIN avant publication.',
+  nx:'1) Visite de reconnaissance et échantillonnage de surface. 2) Cartographie géologique au 1:5 000 du secteur central. 3) Présenter cette fiche aux investisseurs intéressés par '+mfr+'.'},
+};
+ return T[lang]||T.es}
+function viewInforme(id){var c=findConc(id);if(!c)return notFound();var o=orderFor(c.id);var lang=RLANG||DB.lang;var R=rtext(c,lang),li=LANGS.indexOf(lang);
+ function H(k){return L[k][li]}
+ var secs=[['summary','sum'],['loc','loc'],['geol','geo'],['occs','occ'],['sat','sat'],['env','env'],['legalst','leg'],['next','nx']];
+ var canPub=o&&(o.plan==='vitrina'||o.plan==='portafolio');
+ return '<div class="stack" style="gap:16px"><div class="row no-print"><a class="btn btn-g btn-sm" href="#ficha-'+c.id+'">'+t('back')+'</a><span class="spacer"></span><span class="small muted">'+t('report_lang')+'</span><div class="seg">'+LANGS.map(function(l){return '<button data-rlang="'+l+'" aria-pressed="'+(lang===l)+'">'+l.toUpperCase()+'</button>'}).join('')+'</div><button class="btn btn-g btn-sm" data-act="print">'+t('print')+'</button></div>'+
+ '<article class="report"><header>'+contourBg(c.code.length*7,.25)+'<div class="row">'+logo(true,26)+'<span class="spacer"></span><span class="ai-tag">'+H('ai_drafted')+'</span></div><h1 style="margin-top:18px">'+esc(c.name)+'</h1><p style="color:var(--night-muted)">'+H('code_l')+' '+esc(c.code)+' · '+esc(c.region)+', '+COUNTRIES[c.country][li]+' · '+c.ha+' ha · '+(METALS[c.metal]?METALS[c.metal][li]:c.metal)+'</p></header>'+
+ '<section><h3>'+H('map')+'</h3><div>'+mapBlock(c)+'</div></section>'+secs.map(function(s){return '<section><h3>'+H(s[0])+'</h3><p>'+esc(R[s[1]])+'</p></section>'}).join('')+
+ '<section><h3>'+H('notice')+'</h3><p class="small muted">'+H('disclaimer')+' © 2026 Limly LLC.</p></section></article>'+
+ '<div class="panel stack no-print">'+(c.published?'<div class="callout ok">'+ic('check')+'<span>'+t('published')+'</span></div>':canPub?'<button class="btn btn-p" data-act="publish" data-id="'+c.id+'">'+t('publish')+'</button>':'<p class="small">'+t('need_vitrina')+'</p><button class="btn btn-d btn-sm" data-act="upsell" data-cid="'+c.id+'">'+t('publish')+' · US$ 100</button>')+'</div></div>'}
+
+/* ===== Inversionista ===== */
+var FIL={metal:'',country:'',goal:''};
+function viewDir(){var opps=allOpps().filter(function(o){return(!FIL.metal||o.metal===FIL.metal)&&(!FIL.country||o.country===FIL.country)&&(!FIL.goal||o.goal===FIL.goal)});var left=Math.max(0,3-DB.unlocked.length);
+ function sel(id,all,opts,cur){return '<select id="'+id+'" aria-label="'+all+'"><option value="">'+all+'</option>'+opts.map(function(o){return '<option value="'+o[0]+'" '+(cur===o[0]?'selected':'')+'>'+o[1]+'</option>'}).join('')+'</select>'}
+ return '<div class="stack" style="gap:20px"><div><h1>'+t('dir_t')+'</h1><p class="muted">'+t('dir_sub')+'</p></div><div class="row"><div class="pill-filters">'+
+ sel('f-metal',t('all_metals'),Object.keys(METALS).map(function(m){return [m,mName(m)]}),FIL.metal)+sel('f-country',t('all_countries'),['PE','CL','EC','CO','MX','BR'].map(function(k){return [k,cName(k)]}),FIL.country)+sel('f-goal',t('all_goals'),[['sell',t('g_sell')],['option',t('g_option')],['partner',t('g_partner')]],FIL.goal)+
+ '</div><span class="spacer"></span><span class="badge b-plain">'+left+' '+t('free_left')+'</span></div><div class="opps">'+opps.map(function(o){return '<a class="opp" href="#oportunidad-'+o.id+'"><div class="map">'+claimMap(o,{layers:{geo:1,occ:1,road:1,anp:0,water:1}})+'</div><div class="b"><div class="row">'+stBadge(o.st)+(o.mine||o.real?'':'<span class="xs muted">'+t('sample')+'</span>')+'</div><h3>'+esc(o.name)+'</h3><p class="small muted">'+esc(o.region)+', '+cName(o.country)+' · '+o.ha+' ha · '+mName(o.metal)+' · '+goalName(o.goal)+'</p><p class="small">'+esc(o.sum[LANGS.indexOf(DB.lang)]||'')+'</p></div></a>'}).join('')+'</div></div>'}
+function viewOpp(id){var o=findOpp(id);if(!o)return notFound();var open=DB.unlocked.indexOf(o.id)>=0||o.mine;var f=facts(o);var ints=DB.ints.some(function(x){return x.oid===o.id});
+ var full=open?'<div class="facts"><div><b>'+f.road+'</b><span>'+t('fx_road')+'</span></div><div><b>'+f.occ+'</b><span>'+t('fx_occ')+'</span></div><div><b>'+f.alt.toLocaleString('en-US')+'</b><span>'+t('fx_alt')+'</span></div></div><div class="panel stack"><h3>'+t('summary')+'</h3><p>'+esc(rtext(o,DB.lang).sum)+'</p><h3>'+t('geol')+'</h3><p>'+esc(rtext(o,DB.lang).geo)+'</p><h3>'+t('env')+'</h3><p>'+esc(rtext(o,DB.lang).env)+'</p><p class="help">'+t('owner_note')+'</p></div>'+(ints?'<div class="callout ok">'+ic('check')+'<span>'+t('int_sent')+'</span></div>':'<div class="panel stack"><label class="check"><input type="checkbox" id="nda"><span>'+t('nda')+'</span></label><div class="row"><button class="btn btn-p" data-act="interest" data-id="'+o.id+'">'+t('interest')+'</button>'+(CONFIG.calUrl?'<a class="btn btn-g" href="'+CONFIG.calUrl+'" target="_blank" rel="noopener">'+t('meeting')+'</a>':'')+'</div></div>')
+ :(DB.unlocked.length<3?'<button class="btn btn-p btn-lg" data-act="unlock" data-id="'+o.id+'">'+ic('lock')+t('unlock')+'</button>':'<div class="callout warn">'+ic('info')+'<span>'+t('no_free')+'</span></div><a class="btn btn-p" href="#screening">'+t('order_scr')+'</a>');
+ return '<div class="stack" style="gap:18px"><div class="row"><a class="btn btn-g btn-sm" href="#directorio">'+t('back')+'</a></div><div class="row" style="align-items:flex-end"><div style="flex:1;min-width:240px"><p class="small muted">'+(o.mine||o.real?'':t('sample')+' · ')+cName(o.country)+'</p><h1>'+esc(o.name)+'</h1><p class="muted">'+esc(o.region)+' · '+o.ha+' ha · '+mName(o.metal)+' · '+goalName(o.goal)+'</p></div>'+stBadge(o.st)+'</div><div class="grid2" style="align-items:start"><div>'+mapBlock(o)+'</div><div class="stack">'+full+'</div></div></div>'}
+function viewInts(){if(!DB.ints.length)return '<div class="stack"><h2>'+t('n_int')+'</h2><div class="empty"><p>'+t('no_int')+'</p><a class="btn btn-p" href="#directorio">'+t('n_dir')+'</a></div></div>';
+ return '<div class="stack"><h2>'+t('n_int')+'</h2><div class="list">'+DB.ints.map(function(x){var o=findOpp(x.oid);return o?'<a class="li" href="#oportunidad-'+o.id+'"><div style="flex:1"><div class="t">'+esc(o.name)+'</div><div class="small muted">'+esc(o.region)+' · '+mName(o.metal)+' · '+new Date(x.at).toLocaleDateString(DB.lang)+'</div></div><span class="badge b-info">'+t('st_info')+'</span></a>':''}).join('')+'</div></div>'}
+function viewScreening(){var ms=Object.keys(METALS).map(function(m){return '<label class="check" style="min-width:120px"><input type="checkbox" name="sm" value="'+m+'"><span>'+mName(m)+'</span></label>'}).join('');
+ return '<div class="stack" style="max-width:820px;gap:20px"><div><h1>'+t('scr_t')+'</h1><p class="muted">'+t('scr_sub')+'</p></div><div class="panel stack"><div class="lbl">'+t('scr_metals')+'</div><div class="row">'+ms+'</div><div class="grid2"><div class="field"><label for="s-where">'+t('scr_where')+'</label><input class="input" id="s-where" placeholder="Perú sur, Chile norte"></div><div class="field"><label for="s-size">'+t('scr_size')+'</label><input class="input" id="s-size" type="number" placeholder="200"></div><div class="field"><label for="s-stage">'+t('scr_stage')+'</label><select class="input" id="s-stage"><option>'+t('stg_grass')+'</option><option>'+t('stg_early')+'</option><option>'+t('stg_adv')+'</option></select></div><div class="field"><label for="s-deal">'+t('scr_deal')+'</label><select class="input" id="s-deal"><option>'+t('g_option')+'</option><option>'+t('g_sell')+'</option><option>'+t('g_partner')+'</option></select></div></div></div>'+planPicker('',['screening'])+'</div>'}
+
+/* ===== Aliado ===== */
+function viewAliado(){var code='CAT-'+(DB.user.name||'aliado').split(' ')[0].toUpperCase().replace(/[^A-Z]/g,'').slice(0,6)+'-'+(DB.user.ref||'');var link=siteAbs().replace(/#.*$/,'')+'#ref-'+code.toLowerCase();
+
+ return '<div class="stack" style="gap:20px"><h1>'+t('n_partner')+'</h1><div class="panel stack"><h3>'+t('ref_t')+'</h3><div class="row"><input class="input code" id="ref-link" value="'+esc(link)+'" readonly style="flex:1;min-width:220px"><button class="btn btn-d" data-act="copy-ref">'+t('ref_copy')+'</button></div><p class="small">'+t('ref_rule')+'</p></div><div class="kpis"><div class="kpi"><div class="n">'+(DB.user.refClients||0)+'</div><div class="l">'+t('ref_clients')+'</div></div><div class="kpi"><div class="n">'+money(DB.user.refEarn||0)+'</div><div class="l">'+t('ref_earn')+'</div></div></div><div class="empty"><p>'+t('ref_none')+'</p></div></div>'}
+
+/* ===== Equipo: operaciones ===== */
+function viewOps(){var rows=(FBX.on?TEAM.orders:DB.orders.slice().reverse());if(FBX.on&&!TEAM.loaded){TEAM.load();return '<p class="muted">'+t('loading')+'</p>'}var ck=['c1','c2','c3','c4','c5','c6','c7','c8'];
+ var orders=rows.length?rows.map(function(o){var c=o.cid?findConc(o.cid):null;var done=DB.ops[o.id]||[];var late=Date.now()>o.eta&&o.stage<3;
+  return '<div class="panel stack"><div class="row"><div><b>'+(c?esc(c.name):o.concName?esc(o.concName+' · '+o.concCode):t('p_screening'))+'</b> <span class="small muted">'+t('p_'+o.plan)+' · '+money(o.amount)+'</span><div class="small muted">'+esc(o.client)+'</div></div><span class="spacer"></span>'+(late?'<span class="badge b-danger">SLA</span>':'')+'<span class="small muted">'+t('eta')+': '+new Date(o.eta).toLocaleDateString(DB.lang)+'</span></div>'+payBadge(o)+tracker(o.stage)+'<details><summary class="small" style="cursor:pointer">'+t('ops_check')+' ('+done.length+'/8)</summary><div class="grid2" style="margin-top:10px">'+ck.map(function(k){return '<label class="check"><input type="checkbox" data-ck="'+o.id+'|'+k+'" '+(done.indexOf(k)>=0?'checked':'')+'><span>'+t(k)+'</span></label>'}).join('')+'</div></details><div class="row">'+((o.pay||'pagado')!=='pagado'?'<button class="btn btn-p btn-sm" data-act="mark-paid" data-id="'+o.id+'">'+t('mark_paid')+'</button>':'')+'<button class="btn btn-d btn-sm" data-act="advance" data-id="'+o.id+'">'+t('advance')+'</button></div></div>'}).join(''):'<div class="empty"><p>'+t('no_orders')+'</p></div>';
+ var IL=FBX.on?TEAM.ints:DB.ints;var ints=IL.length?'<div class="list">'+IL.map(function(x){var o=findOpp(x.oid);return '<div class="li"><div style="flex:1"><div class="t">'+(o?esc(o.name):x.oid)+'</div><div class="small muted">'+esc(x.who)+' · '+new Date(x.at).toLocaleString(DB.lang)+'</div></div><span class="badge b-info">48 h</span></div>'}).join('')+'</div>':'<p class="small muted">—</p>';
+ return '<div class="stack" style="gap:20px"><div><h1>'+t('ops_t')+'</h1><p class="muted">'+t('ops_sub')+'</p></div>'+(FBX.on?'':'<p class="help">'+t('team_local')+'</p>')+orders+'<h2>'+t('interests_q')+'</h2>'+ints+(FBX.on?'<h2>'+t('vit_q')+'</h2>'+(TEAM.vit.length?'<div class="list">'+TEAM.vit.map(function(v){return '<div class="li"><div style="flex:1;min-width:0"><div class="t">'+esc(v.name)+'</div><div class="small muted code">'+esc(v.code)+' · '+esc(v.region)+' · '+v.ha+' ha · '+mName(v.metal)+'</div></div><button class="btn btn-p btn-sm" data-act="approve" data-id="'+esc(v.id)+'">'+t('approve')+'</button></div>'}).join('')+'</div>':'<p class="small muted">—</p>'):'')+'</div>'}
+
+/* ===== Ajustes ===== */
+function viewSettings(){return '<div class="stack" style="max-width:720px;gap:18px"><h1>'+t('set_t')+'</h1><div class="panel stack"><div class="row"><span class="lbl" style="min-width:90px">'+t('lang')+'</span>'+langSeg()+'</div><div class="row"><span class="lbl" style="min-width:90px">'+t('theme')+'</span><div class="seg">'+[['auto','th_auto'],['light','th_light'],['dark','th_dark']].map(function(x){return '<button data-theme-set="'+x[0]+'" aria-pressed="'+(DB.theme===x[0])+'">'+t(x[1])+'</button>'}).join('')+'</div></div></div><div class="panel stack"><h3>'+t('data_t')+'</h3><p class="small">'+t('data_note')+'</p><div class="row"><button class="btn btn-g" data-act="export">'+t('export')+'</button><button class="btn btn-g" data-act="delete" style="color:var(--danger)">'+t('del')+'</button></div><p class="small">'+legalLinks()+'</p></div><div class="panel stack"><h3>'+t('help')+'</h3><div class="row">'+(CONFIG.whatsapp?'<a class="btn btn-g" href="https://wa.me/'+CONFIG.whatsapp+'" target="_blank" rel="noopener">'+ic('wa')+t('contact_wa')+'</a>':'')+'<a class="btn btn-g" href="mailto:'+CONFIG.supportEmail+'">'+ic('mail')+t('contact_mail')+'</a></div></div><button class="btn btn-g" data-act="logout">'+ic('out')+t('logout')+'</button></div>'}
+function notFound(){return '<div class="empty"><p>—</p><a class="btn btn-g" href="#inicio">'+t('back')+'</a></div>'}
+
+/* ===== Render ===== */
+function render(){applyTheme();var r=route(),app=document.getElementById('app');
+ if(!BOOTED){app.innerHTML='<div style="padding:40px;text-align:center" class="muted">'+t('loading')+'</div>';return}
+ if(r==='pagado'&&DB.user){finishOrder('verificando');toast(t('paid_back'));return}
+ var pm=r.match(/^plan-(informe|vitrina|portafolio|screening)$/);if(pm){DB.plan=pm[1];save()}
+ var cm=r.match(/^crear-(titular|inversion|aliado)$/);if(cm){AUTH.role=cm[1];AUTH.mode='create'}
+ if(r==='ingresar'){AUTH.mode='login'}
+ if(!DB.user){if(pm)AUTH.role=pm[1]==='screening'?'inversion':'titular';app.innerHTML=viewAuth();return}
+ if(!DB.user.onboarded){app.innerHTML=viewWelcome();return}
+ if(pm){if(pm[1]==='screening')r='screening';else r=DB.concs.length?'concesiones':'nueva'}
+ if(!r||cm||r==='ingresar')r=navItems()[0][0];
+ var v,cur=r;
+ if(r==='inicio')v=viewHome();else if(r==='concesiones')v=viewConcs();else if(r==='nueva')v=viewNew();
+ else if(r.indexOf('ficha-')===0){v=viewFicha(r.slice(6));cur='concesiones'}
+ else if(r==='pago'){v=viewPago();cur=DB.checkout&&DB.checkout.plan==='screening'?'screening':'concesiones'}
+ else if(r==='pedidos')v=viewOrders();
+ else if(r.indexOf('informe-')===0){v=viewInforme(r.slice(8));cur='pedidos'}
+ else if(r==='directorio')v=viewDir();else if(r.indexOf('oportunidad-')===0){v=viewOpp(r.slice(12));cur='directorio'}
+ else if(r==='intereses')v=viewInts();else if(r==='screening')v=viewScreening();
+ else if(r==='aliado')v=viewAliado();else if(r==='operaciones')v=viewOps();else if(r==='ajustes')v=viewSettings();else v=notFound();
+ app.innerHTML=shell(cur,v);window.scrollTo(0,0)}
+
+/* ===== Eventos ===== */
+function val(id){var el=document.getElementById(id);return el?el.value.trim():''}
+function addDays(n){var d=new Date(),k=0;while(k<n){d.setDate(d.getDate()+1);var w=d.getDay();if(w!==0&&w!==6)k++}return d.getTime()}
+document.addEventListener('click',function(e){var b=e.target.closest('button,a');if(!b)return;
+ if(b.dataset.lang){DB.lang=b.dataset.lang;save();render();return}
+ if(b.hasAttribute('data-theme-toggle')){var dark=document.documentElement.getAttribute('data-theme')==='dark'||(DB.theme==='auto'&&matchMedia('(prefers-color-scheme: dark)').matches);DB.theme=dark?'light':'dark';save();render();return}
+ if(b.dataset.themeSet){DB.theme=b.dataset.themeSet;save();render();return}
+ if(b.dataset.mode){AUTH.mode=b.dataset.mode;AUTH.err='';go(AUTH.mode==='create'?'crear-'+AUTH.role:'ingresar');return}
+ if(b.dataset.role){AUTH.role=b.dataset.role;document.querySelectorAll('[data-role]').forEach(function(x){x.setAttribute('aria-pressed',x.dataset.role===AUTH.role)});return}
+ if(b.dataset.layer){MAPL[b.dataset.layer]=MAPL[b.dataset.layer]?0:1;render();return}
+ if(b.dataset.plan){DB.plan=b.dataset.plan;save();document.querySelectorAll('[data-plan]').forEach(function(x){x.setAttribute('aria-pressed',x.dataset.plan===DB.plan)});return}
+ if(b.dataset.rlang){RLANG=b.dataset.rlang;render();return}
+ var a=b.dataset.act;if(!a)return;
+ if(a==='signup'||a==='google'&&AUTH.mode==='create'){var err=document.getElementById('a-err');var okEl=document.getElementById('a-ok');
+  var n=val('a-name'),m=lc(val('a-mail')),ok=okEl&&okEl.checked;
+  var ref=null;try{ref=localStorage.getItem('cateo-ref')}catch(x){}
+  var prof={name:n,email:m,company:val('a-co'),country:val('a-country'),phone:val('a-phone'),role:AUTH.role,optin:!!(document.getElementById('a-opt')||{}).checked,acceptedAt:new Date().toISOString(),ref:uid(),referredBy:ref||'',lang:DB.lang};
+  if(a==='google'){if(!ok){err.textContent=t('accept_first');return}AUTH.pendingProf=prof;FBX.google().catch(function(e){AUTH.pendingProf=null;err.textContent=FBX.msg(e)});return}
+  if(!n||!m||!ok){err.textContent=t('err_req');return}if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(m)){err.textContent=t('err_mail');return}
+  if(FBX.on&&FBX.user&&AUTH.needProfile){prof.email=lc(FBX.user.email);DB.user=prof;AUTH.needProfile=false;AUTH.prefill='';save();FBX.flush();go('');render();return}
+  if(FBX.on){var pw=val('a-pass');if(pw.length<8){err.textContent=t('err_pass');return}b.disabled=true;AUTH.pendingProf=prof;
+   FBX.auth.createUserWithEmailAndPassword(m,pw).then(function(c){if(c&&c.user)c.user.sendEmailVerification().catch(function(){})},function(e){b.disabled=false;AUTH.pendingProf=null;err.textContent=FBX.msg(e)});return}
+  DB.known[m]=prof;DB.user=prof;AUTH.prefill='';save();go('');render();return}
+ if(a==='google'){FBX.google().catch(function(e){var er=document.getElementById('a-err');if(er)er.textContent=FBX.msg(e)});return}
+ if(a==='login'){var lm=lc(val('l-mail')),le=document.getElementById('a-err');if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(lm)){le.textContent=t('err_mail');return}
+  if(FBX.on){var lp=val('l-pass');if(!lp){le.textContent=t('err_auth');return}b.disabled=true;FBX.auth.signInWithEmailAndPassword(lm,lp).catch(function(e){b.disabled=false;le.textContent=FBX.msg(e)});return}
+  var kp=DB.known[lm]||(DB.user&&DB.user.email===lm?DB.user:null);
+  if(!kp&&CONFIG.teamEmails.indexOf(lm)>=0)kp={name:lm.split('@')[0],email:lm,role:'titular',ref:uid(),onboarded:true};
+  if(!kp){AUTH.prefill=lm;AUTH.err=t('no_account');go('crear-'+AUTH.role);return}
+  DB.user=kp;DB.known[lm]=kp;save();go('');render();return}
+ if(a==='forgot'){var fm=lc(val('l-mail')),fe=document.getElementById('a-err');if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(fm)){fe.textContent=t('err_mail');return}FBX.auth.sendPasswordResetEmail(fm).then(function(){toast(t('reset_sent'))},function(e){fe.textContent=FBX.msg(e)});return}
+ if(a==='approve'){if(!isTeam()||!FBX.on)return;FBX.db.collection('vitrina').doc(b.dataset.id).update({st:'ok',checkedAt:Date.now()}).then(function(){TEAM.loaded=false;render()},function(){toast(t('net_err'))});return}
+ if(a==='enter'){DB.user.onboarded=true;if(DB.known&&DB.user.email)DB.known[DB.user.email]=DB.user;save();go(navItems()[0][0]);render();return}
+ if(a==='logout'){if(FBX.on){FBX.flush();FBX.auth.signOut();DB=blank();try{localStorage.removeItem(KEY)}catch(x){}}else{DB.user=null;save()}AUTH.sent=null;go('ingresar');render();return}
+ if(a==='add-conc'){var code=val('c-code').replace(/\D/g,''),name=val('c-name'),reg=val('c-region'),ha=parseInt(val('c-ha'),10),er=document.getElementById('c-err');
+  if(!code||!name||!reg||!ha){er.textContent=t('err_cform');return}if(code.length<8||code.length>12){er.textContent=t('err_code');return}
+  var c={id:uid(),code:code,name:name,region:reg,country:val('c-country'),ha:ha,metal:val('c-metal'),status:val('c-status'),goal:val('c-goal'),vig:val('c-vig'),price:val('c-price'),notes:val('c-notes'),at:Date.now(),interest:0};DB.concs.push(c);save();go('ficha-'+c.id);return}
+ if(a==='checkout'){var p=DB.plan||'vitrina';var pressed=document.querySelector('[data-plan][aria-pressed="true"]');if(pressed)p=pressed.dataset.plan;DB.checkout={cid:b.dataset.cid||null,plan:p};save();go('pago');return}
+ if(a==='request-pay'){var rk=document.getElementById('p-ok');if(rk&&!rk.checked){toast(t('pay_terms'));rk.focus();return}var mt='mailto:'+CONFIG.contactEmail+'?subject='+encodeURIComponent(t('mail_subj')+': '+t('p_'+DB.checkout.plan))+'&body='+encodeURIComponent(orderText());finishOrder('pendiente');toast(t('order_req_ok'));var ma=document.createElement('a');ma.href=mt;ma.style.display='none';document.body.appendChild(ma);ma.click();ma.remove();return}
+ if(a==='paylink'){DB.checkout.started=Date.now();save();return}
+ if(a==='upsell'){DB.checkout={cid:b.dataset.cid,plan:'vitrina',upsell:true};save();go('pago');return}
+ if(a==='paid'){var pk=document.getElementById('p-ok');if(pk&&!pk.checked){toast(t('pay_terms'));pk.focus();return}finishOrder('verificando');toast(t('paid_back'));return}
+ if(a==='advance'||a==='mark-paid'){if(!isTeam())return;var patch=function(od){if(a==='advance')od.stage=Math.min(3,(od.stage||0)+1);else od.pay='pagado';return od};
+  if(FBX.on){var to=TEAM.orders.filter(function(x){return x.id===b.dataset.id})[0];if(to){patch(to);FBX.db.collection('pedidos').doc(to.id).update({stage:to.stage,pay:to.pay||'pagado',updatedAt:Date.now()}).then(render,function(){toast(t('net_err'))})}return}
+  var od=DB.orders.filter(function(x){return x.id===b.dataset.id})[0];if(od){patch(od);save();render()}return}
+ if(a==='publish'){var pc=findConc(b.dataset.id);pc.published=true;pc.st='warn';save();FBX.publish(pc);toast(t('published'));render();return}
+ if(a==='print'){try{window.print()}catch(x){toast(t('print'))}return}
+ if(a==='unlock'){if(DB.unlocked.indexOf(b.dataset.id)<0&&DB.unlocked.length<3)DB.unlocked.push(b.dataset.id);save();render();return}
+ if(a==='interest'){if(!document.getElementById('nda').checked){toast(t('nda'));return}var it={id:uid()+uid(),oid:b.dataset.id,at:Date.now(),who:DB.user.name+' <'+DB.user.email+'>'};DB.ints.push(it);FBX.add('intereses',it);if(!FBX.on){var oo=findOpp(b.dataset.id);var im=document.createElement('a');im.href='mailto:'+CONFIG.contactEmail+'?subject='+encodeURIComponent(t('interest')+': '+(oo?oo.name:b.dataset.id))+'&body='+encodeURIComponent(it.who);im.style.display='none';document.body.appendChild(im);im.click();im.remove()}var mc=findConc(b.dataset.id);if(mc){mc.interest=(mc.interest||0)+1;mc.st='info'}save();render();return}
+ if(a==='copy-ref'){var rl=document.getElementById('ref-link');rl.select();try{navigator.clipboard.writeText(rl.value).then(function(){toast(t('copied'))},function(){document.execCommand('copy');toast(t('copied'))})}catch(x){document.execCommand('copy');toast(t('copied'))}return}
+ if(a==='export'){var s=JSON.stringify(DB,null,2);try{navigator.clipboard.writeText(s).then(function(){toast(t('copied'))},function(){toast('—')})}catch(x){toast('—')}return}
+ if(a==='delete'){if(confirm(t('del_q'))){var finish=function(){try{localStorage.removeItem(KEY)}catch(x){}DB=blank();go('crear-titular');render()};if(FBX.on&&FBX.user){FBX.removeAccount().then(finish,finish)}else{if(DB.user)delete DB.known[DB.user.email];var kn=DB.known;finish();DB.known=kn;save()}}return}
+});
+document.addEventListener('change',function(e){var el=e.target;
+ if(el.id==='f-metal'){FIL.metal=el.value;render()}else if(el.id==='f-country'){FIL.country=el.value;render()}else if(el.id==='f-goal'){FIL.goal=el.value;render()}
+ else if(el.dataset&&el.dataset.ck){var p=el.dataset.ck.split('|');var arr=DB.ops[p[0]]=DB.ops[p[0]]||[];var i=arr.indexOf(p[1]);if(el.checked&&i<0)arr.push(p[1]);if(!el.checked&&i>=0)arr.splice(i,1);save();var s=el.closest('details').querySelector('summary');s.textContent=t('ops_check')+' ('+arr.length+'/8)'}});
+/* ===== Nube opcional (Firebase, plan gratuito Spark) =====
+   Si /config.js trae firebase.apiKey, projectId y authDomain, la plataforma usa
+   cuentas reales (correo + contraseña o Google) y guarda los datos en Firestore.
+   Si no, funciona igual con las cuentas guardadas en el dispositivo. */
+var BOOTED=false;
+function clean(o){return JSON.parse(JSON.stringify(o))}
+var FBX={on:false,user:null,auth:null,db:null,_t:null,
+ enabled:function(){var f=CONFIG.firebase||{};return !!(f.apiKey&&f.projectId&&f.authDomain)},
+ load:function(src){return new Promise(function(res,rej){var el=document.createElement('script');el.src=src;el.onload=res;el.onerror=rej;document.head.appendChild(el)})},
+ init:function(){var base='https://www.gstatic.com/firebasejs/10.12.2/';
+  return FBX.load(base+'firebase-app-compat.js').then(function(){return Promise.all([FBX.load(base+'firebase-auth-compat.js'),FBX.load(base+'firebase-firestore-compat.js')])})
+  .then(function(){firebase.initializeApp(CONFIG.firebase);FBX.auth=firebase.auth();FBX.db=firebase.firestore();FBX.on=true;return true})
+  .catch(function(){FBX.on=false;return false})},
+ msg:function(e){var c=(e&&e.code)||'';if(c==='auth/email-already-in-use')return t('err_exists');if(c==='auth/wrong-password'||c==='auth/user-not-found'||c==='auth/invalid-credential'||c==='auth/invalid-login-credentials')return t('err_auth');if(c==='auth/weak-password')return t('err_pass');if(c==='auth/invalid-email')return t('err_mail');if(c==='auth/popup-closed-by-user'||c==='auth/cancelled-popup-request')return '';return t('net_err')},
+ google:function(){var p=new firebase.auth.GoogleAuthProvider();p.setCustomParameters({prompt:'select_account'});return FBX.auth.signInWithPopup(p)},
+ push:function(){if(!FBX.on||!FBX.user||!DB.user)return;clearTimeout(FBX._t);FBX._t=setTimeout(FBX.flush,700)},
+ flush:function(){if(!FBX.on||!FBX.user||!DB.user)return Promise.resolve();clearTimeout(FBX._t);
+  var d={profile:DB.user,concs:DB.concs,orders:DB.orders,ints:DB.ints,scr:DB.scr,unlocked:DB.unlocked,ops:DB.ops,lang:DB.lang,theme:DB.theme,updatedAt:Date.now()};
+  return FBX.db.collection('cuentas').doc(FBX.user.uid).set(clean(d)).catch(function(){})},
+ order:function(o){if(!FBX.on||!FBX.user)return;var d=Object.assign({},o,{uid:FBX.user.uid,email:DB.user.email,name:DB.user.name,phone:DB.user.phone||'',referredBy:DB.user.referredBy||''});
+  FBX.db.collection('pedidos').doc(o.id).set(clean(d),{merge:true}).catch(function(){})},
+ add:function(col,x){if(!FBX.on||!FBX.user)return;FBX.db.collection(col).doc(x.id).set(clean(Object.assign({},x,{uid:FBX.user.uid,email:DB.user.email}))).catch(function(){})},
+ publish:function(c){if(!FBX.on||!FBX.user)return;var n=c.notes||'';
+  FBX.db.collection('vitrina').doc(c.id).set(clean({id:c.id,uid:FBX.user.uid,name:c.name,code:c.code,country:c.country,region:c.region,ha:c.ha,metal:c.metal,goal:c.goal,st:'warn',sum:[n,n,n,n],at:Date.now()})).catch(function(){})},
+ removeAccount:function(){var u=FBX.user,db=FBX.db;var pubs=DB.concs.filter(function(c){return c.published});
+  return Promise.all(pubs.map(function(c){return db.collection('vitrina').doc(c.id).delete().catch(function(){})}))
+  .then(function(){return db.collection('cuentas').doc(u.uid).delete()})
+  .then(function(){return u.delete().catch(function(){return FBX.auth.signOut()})})}
+};
+var VIT={list:[],loaded:false,loading:false,load:function(){if(VIT.loading||!FBX.on)return;VIT.loading=true;
+ Promise.all(['ok','info'].map(function(st){return FBX.db.collection('vitrina').where('st','==',st).limit(200).get()})).then(function(r){var docs=r[0].docs.concat(r[1].docs);VIT.list=docs.map(function(d){var x=d.data();x.real=true;if(!x.sum)x.sum=['','','',''];return x});VIT.loaded=true;VIT.loading=false;if(/^(directorio|oportunidad-)/.test(route()))render()})
+ .catch(function(){VIT.loaded=true;VIT.loading=false})}};
+var TEAM={orders:[],ints:[],vit:[],loaded:false,loading:false,load:function(){if(TEAM.loading||!FBX.on)return;TEAM.loading=true;var db=FBX.db;
+ Promise.all([db.collection('pedidos').orderBy('at','desc').limit(300).get(),db.collection('intereses').orderBy('at','desc').limit(300).get(),db.collection('vitrina').where('st','==','warn').limit(200).get()])
+ .then(function(r){TEAM.orders=r[0].docs.map(function(d){return d.data()});TEAM.ints=r[1].docs.map(function(d){return d.data()});TEAM.vit=r[2].docs.map(function(d){return d.data()});TEAM.loaded=true;TEAM.loading=false;render()})
+ .catch(function(){TEAM.loaded=true;TEAM.loading=false;toast(t('net_err'));render()})}};
+
+function finishOrder(pay){var co=DB.checkout;if(!co){go('pedidos');return}
+ if(co.upsell){var ex=orderFor(co.cid);if(ex){ex.plan='vitrina';ex.amount=(ex.amount||0)+100;if(ex.pay==='pagado')ex.pay=pay;FBX.order(ex)}DB.checkout=null;save();go('informe-'+co.cid);return}
+ var c=co.cid?findConc(co.cid):null;
+ var o={id:uid()+uid(),cid:co.cid||null,plan:co.plan,amount:PRICES[co.plan].now,stage:0,pay:pay,at:Date.now(),eta:addDays(co.plan==='screening'?5:3),client:DB.user.name+' <'+DB.user.email+'>',concName:c?c.name:'',concCode:c?c.code:'',concRegion:c?c.region:'',lang:DB.lang};
+ DB.orders.push(o);DB.checkout=null;DB.plan=null;save();FBX.order(o);go(co.cid?'ficha-'+co.cid:'pedidos')}
+
+function afterLogin(u){FBX.user=u;var db=FBX.db;
+ return db.collection('cuentas').doc(u.uid).get().then(function(doc){var d=doc.exists?doc.data():null;
+  if(d&&d.profile){DB.user=d.profile;['concs','orders','ints','scr','unlocked'].forEach(function(k){DB[k]=d[k]||[]});DB.ops=d.ops||{};if(d.lang&&LANGS.indexOf(d.lang)>=0)DB.lang=d.lang;AUTH.needProfile=false}
+  else{['concs','orders','ints','scr','unlocked'].forEach(function(k){DB[k]=[]});DB.ops={};
+   var p=AUTH.pendingProf;
+   if(p){p.email=lc(u.email);if(!p.name)p.name=u.displayName||p.email.split('@')[0];DB.user=p;AUTH.needProfile=false}
+   else{DB.user=null;AUTH.needProfile=true;AUTH.mode='create';AUTH.prefill=lc(u.email);AUTH.prefName=u.displayName||''}}
+  AUTH.pendingProf=null;
+  if(!DB.user)return;
+  save();FBX.flush();
+  return db.collection('pedidos').where('uid','==',u.uid).get().then(function(q){q.docs.forEach(function(x){var r=x.data();var o=DB.orders.filter(function(y){return y.id===r.id})[0];if(o){o.stage=r.stage;o.pay=r.pay;o.plan=r.plan}});
+   return db.collection('vitrina').where('uid','==',u.uid).get()}).then(function(q){q.docs.forEach(function(x){var r=x.data(),c=findConc(r.id);if(c)c.st=r.st});save()}).catch(function(){})})}
+
+function boot(){
+ function fin(){AUTH.busy=false;BOOTED=true;render()}
+ if(!FBX.enabled()){fin();return}
+ AUTH.busy=true;BOOTED=true;render();
+ FBX.init().then(function(ok){if(!ok){fin();return}
+  FBX.auth.onAuthStateChanged(function(u){
+   if(u){AUTH.busy=true;render();afterLogin(u).then(fin,function(){toast(t('net_err'));fin()})}
+   else{FBX.user=null;DB.user=null;AUTH.needProfile=false;fin()}})})}
+boot();
+
+</script>
+</body>
+</html>
